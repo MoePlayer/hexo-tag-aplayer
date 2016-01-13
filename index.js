@@ -5,7 +5,7 @@
 * Licensed under the MIT license.
 *
 * Syntax:
-*  {% aplayer title author url [picture] %}
+*  {% aplayer title author url [picture_url] %}
 */
 var fs = require('hexo-fs'),
 	util = require('hexo-util'),
@@ -58,7 +58,6 @@ hexo.extend.generator.register('APlayer.font', function(locals) {
 });
 
 hexo.extend.filter.register('after_post_render', function(data) {
-	// console.log(data);
 	data.content = 
 		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/assets/css/' + aplayerStyle }) +
 		util.htmlTag('script', {src: '/assets/js/' + aplayerScript}, " ")+ 
@@ -84,7 +83,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 	return data;
 });
 
-// {% aplayer title author url [picture] %}
+// {% aplayer title author url [picture_url] %}
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0],
 		author = args[1],
