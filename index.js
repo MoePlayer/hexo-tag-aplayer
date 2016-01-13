@@ -5,7 +5,7 @@
 * Licensed under the MIT license.
 *
 * Syntax:
-* {% aplayer [video_id] %} or {% [video_id [width [height]]] %}
+*  {% aplayer title author url [picture] %}
 */
 var fs = require('hexo-fs'),
 	util = require('hexo-util'),
@@ -84,7 +84,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 	return data;
 });
 
-// {% aplayer title author url %}
+// {% aplayer title author url [picture] %}
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0],
 		author = args[1],
