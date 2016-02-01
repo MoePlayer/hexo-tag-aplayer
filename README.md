@@ -18,7 +18,7 @@ Embed [aplayer](https://github.com/DIYgod/APlayer) in Hexo posts/pages.
 
 ## Customization
 
-You can modify variables `scriptDir`(default: /assets/js/ ) and `styleDir`(default: /assets/css/) in `index.js` according to your blog's directory structure.
+You can modify variables `scriptDir`(default: "/assets/js/" ) and `styleDir`(default: "/assets/css/") in `index.js` according to your blog's directory structure.
 
 ## Todo
 
@@ -26,3 +26,7 @@ You can modify variables `scriptDir`(default: /assets/js/ ) and `styleDir`(defau
 - [ ] Display lyrics
 - [x] Fix issue cannot use space within arguments
 - [ ] Publish it to the [hexo plugin list](https://hexo.io/plugins) and npm
+
+## LICENCE
+
+MIT
