@@ -5,7 +5,7 @@
 * Licensed under the MIT license.
 *
 * Syntax:
-*  {% aplayer title author url [picture_url] %}
+*  {% aplayer title author url [picture_url, narrow, autoplay] %}
 */
 var fs = require('hexo-fs'),
 	util = require('hexo-util'),
@@ -15,13 +15,13 @@ var fs = require('hexo-fs'),
 	aplayerScript = 'APlayer.min.js',
 	aplayerStyle = 'APlayer.min.css',
 	aplayerDefaultPic = 'default.jpg',
-	aplayerQueue = [],
 	aplayerFontFiles = fs.listDirSync(path.join(srcDir,'font')),
 	registers = [
 		[aplayerStyle, 'assets/css/' + aplayerStyle, path.join(srcDir, aplayerStyle)],
 		[aplayerScript, 'assets/js/' + aplayerScript, path.join(srcDir, aplayerScript)],
 		['aplayer.default.pic', 'assets/css/' + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
-	];
+	],
+	aplayerQueue = [];
 
 aplayerFontFiles.map(function(file) {
 	registers.push(['APlayer.font', 'assets/css/font/' + file, path.join(srcDir, 'font', file)]);
@@ -52,9 +52,9 @@ hexo.extend.filter.register('after_post_render', function(data) {
 		data.content += 			
 			'<script>var '+ args[0] + ' = new APlayer({'+ 
 					'element: document.getElementById("'+ args[0] +'"),' +
-					'narrow: false,' +
-					'autoplay: true,' +
-					'showlrc: false,' +
+					'narrow: ' + (args[5] ? 'true' : 'false') + ',' +
+					'autoplay: ' + (args[6] ? 'true' : 'false') + ',' +
+					'showlrc: false,' + 
 					'music : {' +
 						'title: "'+ args[1] +'",' +
 						'author: "'+ args[2] +'",' +
@@ -70,13 +70,18 @@ hexo.extend.filter.register('after_post_render', function(data) {
 
 // {% aplayer title author url [picture_url] %}
 hexo.extend.tag.register('aplayer', function(args) {
-	var title = args[0],
-		author = args[1],
-		url = args[2],
-		pic = args[3] || '',
+	var title = args[0], author = args[1], url = args[2],
+		narrow = false, autoplay = false,
+		pic = args[3] && /https?:\/\/.*/.test(args[3]) ? args[3] : '';
 		id = 'aplayer' + (counter++);
 		raw =  '<div id="'+ id + '" class="aplayer" style="max-width: 500px; margin-bottom: 20px;"></div>';
-	aplayerQueue.push([id, title, author, url, pic]);
+	if (args.length > 3) {
+		var options = args.slice(3);
+		narrow = options.indexOf('narrow') < 0 ? false : true;
+		autoplay = options.indexOf('autoplay') < 0 ? false : true;
+	}
+
+	aplayerQueue.push([id, title, author, url, pic, narrow, autoplay]);
 	return raw;
 });
 
