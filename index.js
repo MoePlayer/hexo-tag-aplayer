@@ -68,13 +68,13 @@ hexo.extend.filter.register('after_post_render', function(data) {
 	return data;
 });
 
-// {% aplayer title author url [picture_url] %}
+// {% aplayer title author url [picture_url, narrow, autoplay] %}
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0], author = args[1], url = args[2],
 		narrow = false, autoplay = false,
 		pic = args[3] && /https?:\/\/.*/.test(args[3]) ? args[3] : '';
 		id = 'aplayer' + (counter++);
-		raw =  '<div id="'+ id + '" class="aplayer" style="max-width: 500px; margin-bottom: 20px;"></div>';
+		raw =  '<div id="'+ id + '" class="aplayer" style="margin-bottom: 20px;"></div>';
 	if (args.length > 3) {
 		var options = args.slice(3);
 		narrow = options.indexOf('narrow') < 0 ? false : true;
