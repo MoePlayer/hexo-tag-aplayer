@@ -12,19 +12,21 @@ var fs = require('hexo-fs'),
 	path = require('path'),
 	counter = 0,
 	srcDir = path.join(__dirname, 'node_modules', 'aplayer', 'dist'),
+	scriptDir = 'assets/js/',
+	styleDir = 'assets/css/',
 	aplayerScript = 'APlayer.min.js',
 	aplayerStyle = 'APlayer.min.css',
 	aplayerDefaultPic = 'default.jpg',
 	aplayerFontFiles = fs.listDirSync(path.join(srcDir,'font')),
 	registers = [
-		[aplayerStyle, 'assets/css/' + aplayerStyle, path.join(srcDir, aplayerStyle)],
-		[aplayerScript, 'assets/js/' + aplayerScript, path.join(srcDir, aplayerScript)],
-		['aplayer.default.pic', 'assets/css/' + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
+		[aplayerStyle, styleDir + aplayerStyle, path.join(srcDir, aplayerStyle)],
+		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)],
+		['aplayer.default.pic', styleDir + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
 	],
 	aplayerQueue = [];
 
 aplayerFontFiles.map(function(file) {
-	registers.push(['APlayer.font', 'assets/css/font/' + file, path.join(srcDir, 'font', file)]);
+	registers.push(['APlayer.font',  styleDir + 'font/' + file, path.join(srcDir, 'font', file)]);
 });
 
 for (var i = 0; i < registers.length; ++i) {
@@ -44,8 +46,8 @@ for (var i = 0; i < registers.length; ++i) {
 
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content = 
-		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/assets/css/' + aplayerStyle }) +
-		util.htmlTag('script', {src: '/assets/js/' + aplayerScript}, " ")+ 
+		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + aplayerStyle }) +
+		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ")+ 
 		data.content;
 	for (var i=0, args = []; i < aplayerQueue.length; ++i) {
 		args = aplayerQueue[i];
@@ -80,7 +82,6 @@ hexo.extend.tag.register('aplayer', function(args) {
 		narrow = options.indexOf('narrow') < 0 ? false : true;
 		autoplay = options.indexOf('autoplay') < 0 ? false : true;
 	}
-
 	aplayerQueue.push([id, title, author, url, pic, narrow, autoplay]);
 	return raw;
 });

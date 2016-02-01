@@ -12,9 +12,13 @@ Embed [aplayer](https://github.com/DIYgod/APlayer) in Hexo posts/pages.
 
 	{% aplayer title author url [picture_url, narrow, autoplay] %}
 
-**Wrap the arguments within a string literal, for example: **
+**Wrap the arguments within a string literal, for example:**
 
 	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" %}
+
+## Configuration
+
+You can modify variables `scriptDir`(default: `/assets/js/` ) and `styleDir`(default: `/assets/css/`) in `index.js` according to your blog's directory structure.
 
 ## Todo
 
