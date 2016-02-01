@@ -16,9 +16,9 @@ Embed [aplayer](https://github.com/DIYgod/APlayer) in Hexo posts/pages.
 
 	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" %}
 
-## Configuration
+## Customization
 
-You can modify variables `scriptDir`(default: `/assets/js/` ) and `styleDir`(default: `/assets/css/`) in `index.js` according to your blog's directory structure.
+You can modify variables `scriptDir`(default: /assets/js/ ) and `styleDir`(default: /assets/css/) in `index.js` according to your blog's directory structure.
 
 ## Todo
 
