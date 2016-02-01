@@ -27,6 +27,6 @@ You can modify variables `scriptDir`(default: "/assets/js/" ) and `styleDir`(def
 - [x] Fix issue cannot use space within arguments
 - [ ] Publish it to the [hexo plugin list](https://hexo.io/plugins) and npm
 
-## LICENCE
+## LICENSE
 
 MIT
