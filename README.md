@@ -25,7 +25,7 @@ You can modify variables `scriptDir`(default: "/assets/js/" ) and `styleDir`(def
 - [x] More options(e.g. autoplay, narrow)
 - [ ] Display lyrics
 - [x] Fix issue cannot use space within arguments
-- [ ] Publish it to the [hexo plugin list](https://hexo.io/plugins) and npm
+- [x] Publish it to the [hexo plugin list](https://hexo.io/plugins) and npm
 
 ## LICENSE
 
