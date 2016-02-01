@@ -15,47 +15,32 @@ var fs = require('hexo-fs'),
 	aplayerScript = 'APlayer.min.js',
 	aplayerStyle = 'APlayer.min.css',
 	aplayerDefaultPic = 'default.jpg',
+	aplayerQueue = [],
 	aplayerFontFiles = fs.listDirSync(path.join(srcDir,'font')),
-	aplayerQueue = [];
+	registers = [
+		[aplayerStyle, 'assets/css/' + aplayerStyle, path.join(srcDir, aplayerStyle)],
+		[aplayerScript, 'assets/js/' + aplayerScript, path.join(srcDir, aplayerScript)],
+		['aplayer.default.pic', 'assets/css/' + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
+	];
 
-hexo.extend.generator.register(aplayerStyle , function(locals) {
-	return {
-		path: 'assets/css/' + aplayerStyle,
-		data: function() {
-			return fs.createReadStream(path.join(srcDir, aplayerStyle));
-		}
-	};
+aplayerFontFiles.map(function(file) {
+	registers.push(['APlayer.font', 'assets/css/font/' + file, path.join(srcDir, 'font', file)]);
 });
 
-hexo.extend.generator.register(aplayerScript, function(locals) {
-	return {
-		path: 'assets/js/' + aplayerScript,
-		data: function() {
-			return fs.createReadStream(path.join(srcDir, aplayerScript));
-		}
-	};
-});
-
-hexo.extend.generator.register('aplayer.default.pic', function(locals) {
-	return {
-		path: 'assets/css/' + aplayerDefaultPic,
-		data: function() {
-			return fs.createReadStream(path.join(srcDir, aplayerDefaultPic));
-		}
-	};
-});
-
-
-hexo.extend.generator.register('APlayer.font', function(locals) {
-	return aplayerFontFiles.map(function(file) {
-		return {
-			path: 'assets/css/font/' + file,
-			data: function() {
-				return fs.createReadStream(path.join(srcDir, 'font', file));
-			}
-		};
-	});
-});
+for (var i = 0; i < registers.length; ++i) {
+	(function (i) {
+		var register = registers[i], regName = register[0],
+			pubPath = register[1], srcPath = register[2];
+		hexo.extend.generator.register(regName, function(locals) {
+			return {
+				path: pubPath,
+				data: function() {
+					return fs.createReadStream(srcPath);
+				}
+			};
+		});
+	})(i);
+}
 
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content = 
