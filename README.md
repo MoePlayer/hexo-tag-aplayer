@@ -1,6 +1,6 @@
 # hexo-tag-aplayer
 
-Embed [aplayer](https://github.com/DIYgod/APlayer) in Hexo posts/pages.
+Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APlayer)) in Hexo posts/pages.
 
 ![plugin screenshot](http://7jpp1d.com1.z0.glb.clouddn.com/QQ20160202-5.png)
 
@@ -14,7 +14,7 @@ Embed [aplayer](https://github.com/DIYgod/APlayer) in Hexo posts/pages.
 
 **Wrap the arguments within a string literal, for example:**
 
-	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" %}
+	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" %}
 
 ## Customization
 
