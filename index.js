@@ -74,7 +74,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0], author = args[1], url = args[2],
 		narrow = false, autoplay = false,
-		pic = args[3] && /https?:\/\/.*/.test(args[3]) ? args[3] : '';
+		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '';
 		id = 'aplayer' + (counter++);
 		raw =  '<div id="'+ id + '" class="aplayer" style="margin-bottom: 20px;"></div>';
 	if (args.length > 3) {
