@@ -12,7 +12,9 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 
 	{% aplayer title author url [picture_url, narrow, autoplay] %}
 
-**Wrap the arguments within a string literal, for example:**
+Hexo has an [issue](https://github.com/hexojs/hexo/issues/1455) that cannot use space within tag arguments.
+
+If you encounter this problem, **install the latest (beta) version, and wrap the arguments within a string literal, for example:**
 
 	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" %}
 
