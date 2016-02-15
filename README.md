@@ -6,7 +6,7 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 
 ## Installation
 
-	npm install hexo-tag-aplayer
+	npm install --save hexo-tag-aplayer
 
 ## Usage
 
