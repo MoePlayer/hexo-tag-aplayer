@@ -1,6 +1,6 @@
 {
   "name": "hexo-tag-aplayer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Embed aplayer in Hexo posts/pages",
   "main": "index.js",
   "scripts": {
