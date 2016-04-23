@@ -22,8 +22,7 @@ var fs = require('hexo-fs'),
 		[aplayerStyle, styleDir + aplayerStyle, path.join(srcDir, aplayerStyle)],
 		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)],
 		['aplayer.default.pic', styleDir + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
-	],
-	aplayerQueue = [];
+	];
 
 aplayerFontFiles.map(function(file) {
 	registers.push(['APlayer.font',  styleDir + 'font/' + file, path.join(srcDir, 'font', file)]);
@@ -47,26 +46,8 @@ for (var i = 0; i < registers.length; ++i) {
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content =
 		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + aplayerStyle }) +
-		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ")+
+		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ") +
 		data.content;
-	for (var i=0, args = []; i < aplayerQueue.length; ++i) {
-		args = aplayerQueue[i];
-		data.content +=
-			'<script>var '+ args[0] + ' = new APlayer({'+
-					'element: document.getElementById("'+ args[0] +'"),' +
-					'narrow: ' + (args[5] ? 'true' : 'false') + ',' +
-					'autoplay: ' + (args[6] ? 'true' : 'false') + ',' +
-					'showlrc: false,' +
-					'music : {' +
-						'title: "'+ args[1] +'",' +
-						'author: "'+ args[2] +'",' +
-						'url: "'+ args[3] + '",' +
-						'pic: "'+ args[4] + '"' +
-					'}' +
-				'});' +
-			args[0] + '.init();</script>';
-	}
-	aplayerQueue = [];
 	return data;
 });
 
@@ -82,7 +63,20 @@ hexo.extend.tag.register('aplayer', function(args) {
 		narrow = options.indexOf('narrow') < 0 ? false : true;
 		autoplay = options.indexOf('autoplay') < 0 ? false : true;
 	}
-	aplayerQueue.push([id, title, author, url, pic, narrow, autoplay]);
+	raw +=
+		'<script>var '+ id + ' = new APlayer({'+
+				'element: document.getElementById("'+ id +'"),' +
+				'narrow: ' + (narrow ? 'true' : 'false') + ',' +
+				'autoplay: ' + (autoplay ? 'true' : 'false') + ',' +
+				'showlrc: false,' +
+				'music : {' +
+					'title: "'+ title +'",' +
+					'author: "'+ author +'",' +
+					'url: "'+ url + '",' +
+					'pic: "'+ pic + '"' +
+				'}' +
+			'});' +
+		id + '.init();</script>';
 	return raw;
 });
 
