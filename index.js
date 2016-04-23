@@ -11,7 +11,7 @@ var fs = require('hexo-fs'),
 	util = require('hexo-util'),
 	path = require('path'),
 	counter = 0,
-	srcDir = path.dirname(require.resolve('aplayer'));
+	srcDir = path.dirname(require.resolve('aplayer')),
 	scriptDir = 'assets/js/',
 	styleDir = 'assets/css/',
 	aplayerScript = 'APlayer.min.js',
@@ -45,18 +45,18 @@ for (var i = 0; i < registers.length; ++i) {
 }
 
 hexo.extend.filter.register('after_post_render', function(data) {
-	data.content = 
+	data.content =
 		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + aplayerStyle }) +
-		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ")+ 
+		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ")+
 		data.content;
 	for (var i=0, args = []; i < aplayerQueue.length; ++i) {
 		args = aplayerQueue[i];
-		data.content += 			
-			'<script>var '+ args[0] + ' = new APlayer({'+ 
+		data.content +=
+			'<script>var '+ args[0] + ' = new APlayer({'+
 					'element: document.getElementById("'+ args[0] +'"),' +
 					'narrow: ' + (args[5] ? 'true' : 'false') + ',' +
 					'autoplay: ' + (args[6] ? 'true' : 'false') + ',' +
-					'showlrc: false,' + 
+					'showlrc: false,' +
 					'music : {' +
 						'title: "'+ args[1] +'",' +
 						'author: "'+ args[2] +'",' +
