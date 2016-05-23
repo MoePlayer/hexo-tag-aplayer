@@ -89,12 +89,13 @@ hexo.extend.tag.register('dplayer', function(args) {
 				',video : {' +
 					'url: "'+ url + '"' +
 					(pic == 'null' ? '': ',pic: "'+ pic + '"') +
-				'}, ' +
-                'danmaku : {' +
-                    (api == 'null' ? 'api: ""': 'api: "'+ api + '"') +
+				'}' +
+                (api == 'null' ? ' ':
+                ',danmaku : {' +
+                    'api: "'+ api + '"' +
 					(did == 'null' ? '': ',id: "'+ did + '"') +
                     (token == 'null' ? '': ',token: "'+ token + '"') +
-				'}' +
+				'}') +
 			'});' +
 		id + '.init();</script>';
 	return raw;
