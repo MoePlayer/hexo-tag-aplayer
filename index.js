@@ -1,7 +1,7 @@
 /**
 * hexo-tag-dplayer
 * https://github.com/NextMoe/hexo-tag-dplayer
-* Copyright (c) 2016, dixyes
+* Transplant recipients : dixyes
 * Integrated source protocol 
 * ---------------------------------
 * source item
