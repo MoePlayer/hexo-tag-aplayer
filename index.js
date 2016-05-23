@@ -5,7 +5,7 @@
 * Licensed under the MIT license.
 *
 * Syntax:
-*  {% dplayer url api key=value ... %}
+*  {% dplayer key=value ... %}
 */
 var fs = require('hexo-fs'),
 	util = require('hexo-util'),
@@ -16,11 +16,9 @@ var fs = require('hexo-fs'),
 	styleDir = 'assets/css/',
 	dplayerScript = 'DPlayer.min.js',
 	dplayerStyle = 'DPlayer.min.css',
-	//dplayerDefaultPic = 'default.jpg',
 	registers = [
 		[dplayerStyle, styleDir + dplayerStyle, path.join(srcDir, dplayerStyle)],
 		[dplayerScript, scriptDir + dplayerScript, path.join(srcDir, dplayerScript)],
-		//['dplayer.default.pic', styleDir + dplayerDefaultPic, path.join(srcDir, dplayerDefaultPic)]
 	];
 
 for (var i = 0; i < registers.length; ++i) {
@@ -46,10 +44,9 @@ hexo.extend.filter.register('after_post_render', function(data) {
 	return data;
 });
 
-// {% dplayer url api key=value ... %}
+// {% dplayer key=value ... %}
 hexo.extend.tag.register('dplayer', function(args) {
-	var	url = args[0], api = args[1],
-        loop = false, autoplay = false, theme = "null", pic="null", did="null", token="null";
+	var	url = 'null', api = 'null', loop = false, autoplay = false, theme = "null", pic="null", did="null", token="null";
         id = 'dplayer' + (counter++);
 		raw =  '<div id="'+ id + '" class="dplayer" style="margin-bottom: 20px;"></div>';
     for (var i = 0; i < args.length; ++i) {
@@ -65,31 +62,37 @@ hexo.extend.tag.register('dplayer', function(args) {
                 if(arg.split('=')[1]=='true'||arg.split('=')[1]=='yes'||arg.split('=')[1]=='1')
                     loop = true;
                 break;
+            case 'url':
+                url = arg.slice(arg.indexOf("=")+1);
+                break;
             case 'pic':
-                pic = arg.split('=')[1];
+                pic = arg.slice(arg.indexOf("=")+1);
+                break;
+            case 'api':
+                api = arg.slice(arg.indexOf("=")+1);
                 break;
             case 'id':
-                did = arg.split('=')[1];
+                did = arg.slice(arg.indexOf("=")+1);
                 break;
             case 'token':
-                token = arg.split('=')[1];
+                token = arg.slice(arg.indexOf("=")+1);
                 break;
         }
     }
-    
+
 	raw +=
 		'<script>var '+ id + ' = new DPlayer({'+
 				'element: document.getElementById("'+ id +'"),' +
 				'autoplay: ' + (autoplay ? 'true' : 'false') + ',' +
                 'loop: ' + (loop ? 'true' : 'false') +
-                (theme == 'null' ? '': ',theme: "' + theme + '",') +
+                (theme == 'null' ? '': ',theme: "' + theme + '"') +
 				',video : {' +
 					'url: "'+ url + '"' +
 					(pic == 'null' ? '': ',pic: "'+ pic + '"') +
 				'}, ' +
                 'danmaku : {' +
-					(did == 'null' ? '': 'id: "'+ did + '"') +
-					',api: "'+ api + '"' +
+                    (api == 'null' ? 'api: ""': 'api: "'+ api + '"') +
+					(did == 'null' ? '': ',id: "'+ did + '"') +
                     (token == 'null' ? '': ',token: "'+ token + '"') +
 				'}' +
 			'});' +
