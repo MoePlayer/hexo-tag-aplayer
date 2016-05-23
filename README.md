@@ -1,6 +1,8 @@
 # hexo-tag-dplayer
+感谢某豆子的移植，也感谢源项目https://github.com/grzhan/hexo-tag-aplayer
 
-Embed DPlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/DPlayer)) in Hexo posts/pages.
+
+Embed DPlayer([https://github.com/DIYgod/DPlayer](https://github.com/DIYgod/DPlayer)) in Hexo posts/pages.
 
 ## Usage
 
