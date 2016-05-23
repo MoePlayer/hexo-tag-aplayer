@@ -1,30 +1,30 @@
 {
-  "name": "hexo-tag-aplayer",
-  "version": "1.0.4",
-  "description": "Embed aplayer in Hexo posts/pages",
+  "name": "hexo-tag-dplayer",
+  "version": "0.0.1",
+  "description": "Embed dplayer in Hexo posts/pages",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "music",
+    "vedio",
     "hexo",
     "tag",
     "player",
-    "aplayer"
+    "dplayer"
   ],
   "author": "Grzhan",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grzhan/hexo-tag-aplayer.git"
+    "url": "git+https://github.com/NextMoe/hexo-tag-dplayer.git"
   },
   "bugs": {
-    "url": "https://github.com/grzhan/hexo-tag-aplayer/issues"
+    "url": "https://github.com/NextMoe/hexo-tag-dplayer/issues"
   },
-  "homepage": "https://github.com/grzhan/hexo-tag-aplayer#readme",
+  "homepage": "https://github.com/NextMoe/hexo-tag-dplayer#readme",
   "dependencies": {
-    "aplayer": "^1.2.14",
+    "dplayer": "^0.1.3",
     "hexo-fs": "^0.1.3",
     "hexo-util": "^0.1.7"
   }

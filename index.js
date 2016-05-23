@@ -1,32 +1,27 @@
 /**
-* hexo-tag-aplayer
-* https://github.com/grzhan/hexo-tag-aplayer
+* hexo-tag-dplayer
+* https://github.com/NextMoe/hexo-tag-dplayer
 * Copyright (c) 2016, grzhan
 * Licensed under the MIT license.
 *
 * Syntax:
-*  {% aplayer title author url [picture_url, narrow, autoplay] %}
+*  {% dplayer url api key=value ... %}
 */
 var fs = require('hexo-fs'),
 	util = require('hexo-util'),
 	path = require('path'),
 	counter = 0,
-	srcDir = path.dirname(require.resolve('aplayer')),
+	srcDir = path.dirname(require.resolve('dplayer')),
 	scriptDir = 'assets/js/',
 	styleDir = 'assets/css/',
-	aplayerScript = 'APlayer.min.js',
-	aplayerStyle = 'APlayer.min.css',
-	aplayerDefaultPic = 'default.jpg',
-	aplayerFontFiles = fs.listDirSync(path.join(srcDir,'font')),
+	dplayerScript = 'DPlayer.min.js',
+	dplayerStyle = 'DPlayer.min.css',
+	//dplayerDefaultPic = 'default.jpg',
 	registers = [
-		[aplayerStyle, styleDir + aplayerStyle, path.join(srcDir, aplayerStyle)],
-		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)],
-		['aplayer.default.pic', styleDir + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
+		[dplayerStyle, styleDir + dplayerStyle, path.join(srcDir, dplayerStyle)],
+		[dplayerScript, scriptDir + dplayerScript, path.join(srcDir, dplayerScript)],
+		//['dplayer.default.pic', styleDir + dplayerDefaultPic, path.join(srcDir, dplayerDefaultPic)]
 	];
-
-aplayerFontFiles.map(function(file) {
-	registers.push(['APlayer.font',  styleDir + 'font/' + file, path.join(srcDir, 'font', file)]);
-});
 
 for (var i = 0; i < registers.length; ++i) {
 	(function (i) {
@@ -45,40 +40,59 @@ for (var i = 0; i < registers.length; ++i) {
 
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content =
-		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + aplayerStyle }) +
-		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ") +
+		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + dplayerStyle }) +
+		util.htmlTag('script', {src: '/' + scriptDir + dplayerScript}, " ") +
 		data.content;
 	return data;
 });
 
-// {% aplayer title author url [picture_url, narrow, autoplay] %}
-hexo.extend.tag.register('aplayer', function(args) {
-	var title = args[0], author = args[1], url = args[2],
-		narrow = false, autoplay = false,
-		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '';
-		id = 'aplayer' + (counter++);
-		raw =  '<div id="'+ id + '" class="aplayer" style="margin-bottom: 20px;"></div>';
-	if (args.length > 3) {
-		var options = args.slice(3);
-		narrow = options.indexOf('narrow') < 0 ? false : true;
-		autoplay = options.indexOf('autoplay') < 0 ? false : true;
-	}
+// {% dplayer url api key=value ... %}
+hexo.extend.tag.register('dplayer', function(args) {
+	var	url = args[0], api = args[1],
+        loop = false, autoplay = false, theme = "null", pic="null", did="null", token="null";
+        id = 'dplayer' + (counter++);
+		raw =  '<div id="'+ id + '" class="dplayer" style="margin-bottom: 20px;"></div>';
+    for (var i = 0; i < args.length; ++i) {
+        arg=args[i];
+        if(arg.split('=').length!=2)
+            continue;
+        switch(arg.split('=')[0]){
+            case 'autoplay':
+                if(arg.split('=')[1]=='true'||arg.split('=')[1]=='yes'||arg.split('=')[1]=='1')
+                    autoplay = true;
+                break;
+            case 'loop':
+                if(arg.split('=')[1]=='true'||arg.split('=')[1]=='yes'||arg.split('=')[1]=='1')
+                    loop = true;
+                break;
+            case 'pic':
+                pic = arg.split('=')[1];
+                break;
+            case 'id':
+                did = arg.split('=')[1];
+                break;
+            case 'token':
+                token = arg.split('=')[1];
+                break;
+        }
+    }
+    
 	raw +=
-		'<script>var '+ id + ' = new APlayer({'+
+		'<script>var '+ id + ' = new DPlayer({'+
 				'element: document.getElementById("'+ id +'"),' +
-				'narrow: ' + (narrow ? 'true' : 'false') + ',' +
 				'autoplay: ' + (autoplay ? 'true' : 'false') + ',' +
-				'showlrc: false,' +
-				'music : {' +
-					'title: "'+ title +'",' +
-					'author: "'+ author +'",' +
+                'loop: ' + (loop ? 'true' : 'false') + ',' +
+                (theme == 'null' ? '': 'theme: "' + theme + '",') +
+				'video : {' +
 					'url: "'+ url + '",' +
-					'pic: "'+ pic + '"' +
+					(pic == 'null' ? '': 'pic: "'+ pic + '"') +
+				'}, ' +
+                'danmaku : {' +
+					(did == 'null' ? '': 'id: "'+ did + '"') +
+					'api: "'+ api + '",' +
+                    (token == 'null' ? '': 'token: "'+ token + '"') +
 				'}' +
 			'});' +
 		id + '.init();</script>';
 	return raw;
 });
-
-
-
