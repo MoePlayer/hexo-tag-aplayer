@@ -7,6 +7,10 @@
 
 Embed DPlayer([https://github.com/DIYgod/DPlayer](https://github.com/DIYgod/DPlayer)) in Hexo posts/pages.
 
+![plugin screenshot](https://static.morz.org/data/img/2016-05-24-07-31.png)
+
+
+
 ## Usage
 
 	{% dplayer key=value ... %}
