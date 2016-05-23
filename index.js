@@ -83,7 +83,7 @@ hexo.extend.tag.register('dplayer', function(args) {
 				'autoplay: ' + (autoplay ? 'true' : 'false') + ',' +
                 'loop: ' + (loop ? 'true' : 'false') +
                 (theme == 'null' ? '': ',theme: "' + theme + '",') +
-				'video : {' +
+				',video : {' +
 					'url: "'+ url + '"' +
 					(pic == 'null' ? '': ',pic: "'+ pic + '"') +
 				'}, ' +
