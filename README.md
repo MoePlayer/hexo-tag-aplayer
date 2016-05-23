@@ -1,5 +1,8 @@
 # hexo-tag-dplayer
-感谢某豆子的移植，也感谢源项目https://github.com/grzhan/hexo-tag-aplayer
+感谢某豆子(dixyes)的移植，也感谢源项目https://github.com/grzhan/hexo-tag-aplayer
+源项目:hexo-tag-aplayer 作者grzhan
+（我不清楚这样会不会违反MIT许可，但如果违反麻烦告诉我我该怎么改，我(Myer921)对英文一窍不通）
+本项目是将diygod的dplayer运行在hexo的插件
 
 
 Embed DPlayer([https://github.com/DIYgod/DPlayer](https://github.com/DIYgod/DPlayer)) in Hexo posts/pages.

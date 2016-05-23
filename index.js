@@ -1,9 +1,15 @@
 /**
 * hexo-tag-dplayer
 * https://github.com/NextMoe/hexo-tag-dplayer
+* Copyright (c) 2016, dixyes
+* Integrated source protocol 
+* ---------------------------------
+* source item
+* hexo-tag-aplayer
+* https://github.com/grzhan/hexo-tag-aplayer
 * Copyright (c) 2016, grzhan
 * Licensed under the MIT license.
-*
+* ---------------------------------
 * Syntax:
 *  {% dplayer key=value ... %}
 */
