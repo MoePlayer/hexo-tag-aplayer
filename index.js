@@ -81,16 +81,16 @@ hexo.extend.tag.register('dplayer', function(args) {
 		'<script>var '+ id + ' = new DPlayer({'+
 				'element: document.getElementById("'+ id +'"),' +
 				'autoplay: ' + (autoplay ? 'true' : 'false') + ',' +
-                'loop: ' + (loop ? 'true' : 'false') + ',' +
-                (theme == 'null' ? '': 'theme: "' + theme + '",') +
+                'loop: ' + (loop ? 'true' : 'false') +
+                (theme == 'null' ? '': ',theme: "' + theme + '",') +
 				'video : {' +
-					'url: "'+ url + '",' +
-					(pic == 'null' ? '': 'pic: "'+ pic + '"') +
+					'url: "'+ url + '"' +
+					(pic == 'null' ? '': ',pic: "'+ pic + '"') +
 				'}, ' +
                 'danmaku : {' +
 					(did == 'null' ? '': 'id: "'+ did + '"') +
-					'api: "'+ api + '",' +
-                    (token == 'null' ? '': 'token: "'+ token + '"') +
+					',api: "'+ api + '"' +
+                    (token == 'null' ? '': ',token: "'+ token + '"') +
 				'}' +
 			'});' +
 		id + '.init();</script>';
