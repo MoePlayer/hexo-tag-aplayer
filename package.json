@@ -1,6 +1,6 @@
 {
   "name": "hexo-tag-dplayer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Embed dplayer in Hexo posts/pages",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "keywords": [
     "vedio",
+    "danmaku",
     "hexo",
     "tag",
     "player",

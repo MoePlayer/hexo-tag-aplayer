@@ -57,7 +57,7 @@ hexo.extend.tag.register('dplayer', function(args) {
 		raw =  '<div id="'+ id + '" class="dplayer" style="margin-bottom: 20px;"></div>';
     for (var i = 0; i < args.length; ++i) {
         arg=args[i];
-        if(arg.split('=').length!=2)
+        if(arg.split('=').length<2)
             continue;
         switch(arg.split('=')[0]){
             case 'autoplay':
