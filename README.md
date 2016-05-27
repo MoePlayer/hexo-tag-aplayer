@@ -22,13 +22,7 @@ Hexo has an [issue](https://github.com/hexojs/hexo/issues/1455) that cannot use 
 
 If you encounter this problem, **install the latest (beta) version, and wrap the arguments within a string literal, for example:**
 
-	<!-- without lyrics -->
 	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" %}
-
-	<!-- with lyrics -->
-	{% aplayerlrc "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" %}
-	[00:00.00]lrc here
-	{% endaplayerlrc %}
 
 ## Customization
 
