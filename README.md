@@ -12,9 +12,9 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 	no lrc
 	{% aplayer title author url [picture_url, narrow, autoplay] %}
 	yes lrc
-        {% aplayerlrc "title" "author" "url" "autoplay" %}
-        [00:00.00]lrc here
-        {% endaplayerlrc %}
+	{% aplayerlrc "title" "author" "url" "autoplay" %}
+	[00:00.00]lrc here
+	{% endaplayerlrc %}
 
 
 Hexo has an [issue](https://github.com/hexojs/hexo/issues/1455) that cannot use space within tag arguments.
