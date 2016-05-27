@@ -13,9 +13,9 @@ Embed DPlayer([https://github.com/DIYgod/DPlayer](https://github.com/DIYgod/DPla
 
 
 
-## Usage
+## npm install
 
-	{% dplayer key=value ... %}
+	npm install hexo-tag-dplayer
 
 ## Usage
 
