@@ -55,8 +55,8 @@ hexo.extend.filter.register('after_post_render', function(data) {
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0], author = args[1], url = args[2],
 		narrow = false, autoplay = false,
-		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '';
-		id = 'aplayer' + (counter++);
+		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '',
+		id = 'aplayer' + (counter++),
 		raw =  '<div id="'+ id + '" class="aplayer" style="margin-bottom: 20px;"></div>';
 	if (args.length > 3) {
 		var options = args.slice(3);
@@ -82,8 +82,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 hexo.extend.tag.register('aplayerlrc', function(args, content) {
 	var title = args[0], author = args[1], url = args[2],
 		narrow = false, autoplay = false,
-		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '';
-		id = 'aplayer' + (counter++);
+		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '',
+		id = 'aplayer' + (counter++),
 		raw =  '<div id="'+ id + '" class="aplayer" style="margin-bottom: 20px;"><pre class="aplayer-lrc-content">'+
         content+'</pre></div>';
 	if (args.length > 3) {
