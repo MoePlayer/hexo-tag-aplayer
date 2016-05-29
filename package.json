@@ -26,6 +26,7 @@
   "dependencies": {
     "aplayer": "^1.2.14",
     "hexo-fs": "^0.1.3",
-    "hexo-util": "^0.1.7"
+    "hexo-util": "^0.1.7",
+    "sync-request": "^3.0.1"
   }
 }
