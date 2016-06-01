@@ -2,8 +2,6 @@
 
 Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APlayer)) in Hexo posts/pages.
 
-![plugin screenshot](http://7jpp1d.com1.z0.glb.clouddn.com/QQ20160202-5.png)
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -17,6 +15,10 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 - [LICENSE](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+![plugin screenshot](http://7jpp1d.com1.z0.glb.clouddn.com/QQ20160202-5.png)
+
 
 ## Installation
 
@@ -43,7 +45,7 @@ With [post asset folders](https://hexo.io/docs/asset-folders.html#Tag-Plugins-Fo
 
 ### With lyrics
 
-Besides 'lrc' option, you can also use tag `aplayerlrc` which has end tag.
+Besides 'lrc' option, you can use `aplayerlrc` which has end tag.
 
 	{% aplayerlrc "title" "author" "url" "autoplay" %}
 	[00:00.00]lrc here
