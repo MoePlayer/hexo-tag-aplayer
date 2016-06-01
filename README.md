@@ -45,7 +45,7 @@ With [post asset folders](https://hexo.io/docs/asset-folders.html#Tag-Plugins-Fo
 
 ### With lyrics
 
-Besides 'lrc' option, you can use `aplayerlrc` which has end tag.
+Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 
 	{% aplayerlrc "title" "author" "url" "autoplay" %}
 	[00:00.00]lrc here
