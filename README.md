@@ -62,7 +62,7 @@ If you encounter this problem, **install the latest (beta) version, and wrap the
 
 ## Customization
 
-You can modify variables `scriptDir`(default: "/assets/js/" ) and `styleDir`(default: "/assets/css/") in `index.js` according to your blog's directory structure.
+You can modify variables `scriptDir`(default: "/assets/js/" ) in `index.js` according to your blog's directory structure.
 
 
 ## LICENSE
