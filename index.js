@@ -14,20 +14,10 @@ var fs = require('hexo-fs'),
 	counter = 0,
 	srcDir = path.dirname(require.resolve('aplayer')),
 	scriptDir = 'assets/js/',
-	styleDir = 'assets/css/',
 	aplayerScript = 'APlayer.min.js',
-	aplayerStyle = 'APlayer.min.css',
-	aplayerDefaultPic = 'default.jpg',
-	aplayerFontFiles = fs.listDirSync(path.join(srcDir,'font')),
 	registers = [
-		[aplayerStyle, styleDir + aplayerStyle, path.join(srcDir, aplayerStyle)],
-		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)],
-		['aplayer.default.pic', styleDir + aplayerDefaultPic, path.join(srcDir, aplayerDefaultPic)]
+		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)]
 	];
-
-aplayerFontFiles.map(function(file) {
-	registers.push(['APlayer.font',  styleDir + 'font/' + file, path.join(srcDir, 'font', file)]);
-});
 
 for (var i = 0; i < registers.length; ++i) {
 	(function (i) {
@@ -46,7 +36,6 @@ for (var i = 0; i < registers.length; ++i) {
 
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content =
-		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + aplayerStyle }) +
 		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, " ") +
 		data.content;
 	return data;
@@ -56,7 +45,8 @@ hexo.extend.filter.register('after_post_render', function(data) {
 hexo.extend.tag.register('aplayer', function(args) {
 	var title = args[0], author = args[1], url = args[2], lrcPath = '',
 		narrow = false, autoplay = false, lrcOpt = false, width = '',
-		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '',
+		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
+					  && args[3].indexOf('lrc:') < 0 && args[3].indexOf('width:') < 0 ? args[3] : '',
 		id = 'aplayer' + (counter++), raw = '', content = '';
 	// Parse optional arguments
 	if (args.length > 3) {
@@ -104,7 +94,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 hexo.extend.tag.register('aplayerlrc', function(args, content) {
 	var title = args[0], author = args[1], url = args[2],
 		narrow = false, autoplay = false,
-		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay' ? args[3] : '',
+        pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
+            && args[3].indexOf('lrc:') < 0 && args[3].indexOf('width:') < 0 ? args[3] : '',
 		id = 'aplayer' + (counter++), raw = '', width = '';
 	if (args.length > 3) {
 		var options = args.slice(3);
