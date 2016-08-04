@@ -19,12 +19,9 @@ var fs = require('hexo-fs'),
 	counter = 0,
 	srcDir = path.dirname(require.resolve('dplayer')),
 	scriptDir = 'assets/js/',
-	styleDir = 'assets/css/',
 	dplayerScript = 'DPlayer.min.js',
-	dplayerStyle = 'DPlayer.min.css',
 	registers = [
-		[dplayerStyle, styleDir + dplayerStyle, path.join(srcDir, dplayerStyle)],
-		[dplayerScript, scriptDir + dplayerScript, path.join(srcDir, dplayerScript)],
+		[dplayerScript, scriptDir + dplayerScript, path.join(srcDir, dplayerScript)]
 	];
 
 for (var i = 0; i < registers.length; ++i) {
@@ -44,7 +41,6 @@ for (var i = 0; i < registers.length; ++i) {
 
 hexo.extend.filter.register('after_post_render', function(data) {
 	data.content =
-		util.htmlTag('link', {rel: 'stylesheet', type: 'text/css', href: '/' + styleDir + dplayerStyle }) +
 		util.htmlTag('script', {src: '/' + scriptDir + dplayerScript}, " ") +
 		data.content;
 	return data;
