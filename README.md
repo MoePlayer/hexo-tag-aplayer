@@ -51,6 +51,37 @@ Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 	[00:00.00]lrc here
 	{% endaplayerlrc %}
 
+### With playlist (new in 2.0)
+
+	{% aplayerlist %}
+	{
+		"narrow": false,						// Optional, narrow style
+	    autoplay: true,							// Optional, autoplay song(s), not supported by mobile browsers
+	    "mode": "random",						// Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+	    "showlrc": 0,							// Optional, show lrc, can be 0, 1, 2
+	    "mutex": true,							// Optional, pause other players when this player playing
+	    "theme": "#e6d0b2",						// Optional, theme color, default: #b7daff
+		"preload": "metadata",					// Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+		"listmaxheight": "513px",				// Optional, max height of play list
+	    "music": [
+	        {
+	            "title": "CoCo",
+	            "author": "Jeff Williams",
+	            "url": "caffeine.mp3",
+	            "pic": "caffeine.jpeg",
+	            "lrc": "caffeine.txt"
+	        },
+	        {
+	            "title": "アイロニ", 
+	            "author": "鹿乃",
+	            "url": "irony.mp3",
+	            "pic": "irony.jpg"
+	        }
+	    ]
+	}
+	{% endaplayerlist %}
+
+
 
 ### Upstream Issue
 
