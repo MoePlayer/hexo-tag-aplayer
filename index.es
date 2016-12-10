@@ -7,6 +7,7 @@
 * Syntax:
 *  {% aplayer title author url [picture_url, narrow, autoplay] %}
 */
+require('babel-polyfill');
 let fs = require('hexo-fs'),
 	util = require('hexo-util'),
 	path = require('path'),
