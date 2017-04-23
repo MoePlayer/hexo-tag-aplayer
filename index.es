@@ -35,7 +35,7 @@ registers.forEach((register) => {
 
 hexo.extend.filter.register('after_post_render', (data) => {
 	data.content =
-		util.htmlTag('script', {src: '/' + scriptDir + aplayerScript}, ' ') +
+		util.htmlTag('script', {src: hexo.config.root + '/' + scriptDir + aplayerScript}, ' ') +
 		data.content;
 	return data;
 });
