@@ -14,7 +14,7 @@ let fs = require('hexo-fs'),
 	request = require('sync-request'),
 	counter = 0,
 	srcDir = path.dirname(require.resolve('aplayer')),
-	scriptDir = 'assets/js/',
+	scriptDir = path.join('assets', 'js/'),
 	aplayerScript = 'APlayer.min.js',
 	registers = [
 		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)]
@@ -34,8 +34,9 @@ registers.forEach((register) => {
 
 
 hexo.extend.filter.register('after_post_render', (data) => {
+    const root = hexo.config.root ? hexo.config.root : '/';
 	data.content =
-		util.htmlTag('script', {src: hexo.config.root + '/' + scriptDir + aplayerScript}, ' ') +
+		util.htmlTag('script', {src: path.join(root, '/', scriptDir, aplayerScript)}, ' ') +
 		data.content;
 	return data;
 });
