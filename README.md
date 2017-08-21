@@ -1,5 +1,7 @@
 # hexo-tag-aplayer
 
+![npm](https://img.shields.io/npm/v/npm.svg)  ![npm](https://img.shields.io/npm/l/express.svg)
+
 Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APlayer)) in Hexo posts/pages.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
