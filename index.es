@@ -8,11 +8,12 @@
 *  {% aplayer title author url [picture_url, narrow, autoplay] %}
 */
 require('babel-polyfill');
-let fs = require('hexo-fs'),
+let counter = 0;
+const fs = require('hexo-fs'),
 	util = require('hexo-util'),
 	path = require('path'),
+	urllib = require('url'),
 	request = require('sync-request'),
-	counter = 0,
 	srcDir = path.dirname(require.resolve('aplayer')),
 	scriptDir = path.join('assets', 'js/'),
 	aplayerScript = 'APlayer.min.js',
@@ -20,8 +21,18 @@ let fs = require('hexo-fs'),
 		[aplayerScript, scriptDir + aplayerScript, path.join(srcDir, aplayerScript)]
 	];
 
+const preProcessUrl = (id, url) => {
+	if (url.startsWith('https://') || url.startsWith('http://') || url.startsWith('/')) {
+		return url;
+	}
+	const PostAsset = hexo.model('PostAsset')
+	const asset = PostAsset.findOne({post: id, slug: url});
+	if (!asset) throw new Error(`Specified music file not found ${url}`);
+	return urllib.resolve(hexo.config.root, asset.path);
+};
+
 registers.forEach((register) => {
-	let [regName, path, srcPath] = register;
+	const [regName, path, srcPath] = register;
 	hexo.extend.generator.register(regName, () => {
 		return {
 			path,
@@ -48,6 +59,7 @@ hexo.extend.tag.register('aplayer', function(args) {
 		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
 					  && !args[3].includes('lrc:') && !args[3].includes('width:') ? args[3] : '',
 		id = 'aplayer' + (counter++), raw = '', content = '';
+	url = preProcessUrl(this._id, url);
 	// Parse optional arguments
 	if (args.length > 3) {
 		let options = args.slice(3);
@@ -67,8 +79,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 		if (lrcPath.indexOf('http:') ==0 || lrcPath.indexOf('https:') ==0) {
 			content = request('GET', lrcPath).getBody();
 		} else {
-			let PostAsset = hexo.database._models.PostAsset;
-			let _path = path.join(hexo.base_dir, PostAsset.findOne({post: this._id, slug: lrcPath})._id);
+			const PostAsset = hexo.database._models.PostAsset;
+			const _path = path.join(hexo.base_dir, PostAsset.findOne({post: this._id, slug: lrcPath})._id);
 			content = fs.readFileSync(_path);
 		}
 		raw += `<pre class="aplayer-lrc-content">${content}</pre>`;
@@ -99,12 +111,13 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
         pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
             && !args[3].includes('lrc:') && !args[3].includes('width:') ? args[3] : '',
 		id = 'aplayer' + (counter++), raw = '', width = '';
+	url = preProcessUrl(this._id, url);
 	if (args.length > 3) {
-		let options = args.slice(3);
+		const options = args.slice(3);
 		narrow = options.includes('narrow');
 		autoplay = options.indexOf('autoplay');
 		for (let i = 0; i < options.length; i++) {
-			let option = options[i];
+			const option = options[i];
 			width = option.indexOf('width:') == 0 ? option + ';' : width;
 		}
 	}
@@ -132,15 +145,18 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 // {% aplayerlist %} {options} {% endaplayerlist %}
 hexo.extend.tag.register('aplayerlist', function(args, content) {
 	try {
-		let options = JSON.parse(content);
-		let id = 'aplayer' + (counter++);
-		let defaultOptions = {
+		const options = JSON.parse(content);
+		const id = 'aplayer' + (counter++);
+		const defaultOptions = {
 			narrow: false,
 			autoplay: false,
 			showlrc: 0
 		};
-		let resultOptions = Object.assign({}, defaultOptions, options);
-		let raw = `
+		const resultOptions = Object.assign({}, defaultOptions, options);
+		resultOptions.music.forEach(info => {
+			info.url = preProcessUrl(this._id, info.url);
+		});
+		const raw = `
 			<div id="${id}" class="aplayer" style="margin-bottom: 20px;"></div>
 			<script>
 				var options = ${JSON.stringify(resultOptions)};
