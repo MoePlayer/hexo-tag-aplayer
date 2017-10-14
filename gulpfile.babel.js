@@ -14,7 +14,7 @@ gulp.task('build', () => {
             'presets': ['es2015']
         })) 
         .pipe(rename('index.js'))
-        .pipe(gulp.dest('.'))
+        .pipe(gulp.dest('.'));
 });
 
 gulp.task('test', () => {
@@ -23,5 +23,5 @@ gulp.task('test', () => {
             'presets': ['es2015']
         }))
         .pipe(rename('index.js'))
-        .pipe(gulp.dest(LOCAL_ENV_PATH))
+        .pipe(gulp.dest(LOCAL_ENV_PATH));
 });
