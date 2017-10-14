@@ -57,7 +57,7 @@ hexo.extend.tag.register('aplayer', function(args) {
 	let [title, author, url] = args, lrcPath = '',
 		narrow = false, autoplay = false, lrcOpt = false, width = '',
 		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
-					  && !args[3].includes('lrc:') && !args[3].includes('width:') ? args[3] : '',
+					  && !args[3].includes('lrc:') && !args[3].includes('width:') ? preProcessUrl(this._id, args[3]) : '',
 		id = 'aplayer' + (counter++), raw = '', content = '';
 	url = preProcessUrl(this._id, url);
 	// Parse optional arguments
@@ -109,7 +109,7 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 	let [title, author, url] = args,
 		narrow = false, autoplay = false,
         pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
-            && !args[3].includes('lrc:') && !args[3].includes('width:') ? args[3] : '',
+            && !args[3].includes('lrc:') && !args[3].includes('width:') ? preProcessUrl(this._id, args[3]) : '',
 		id = 'aplayer' + (counter++), raw = '', width = '';
 	url = preProcessUrl(this._id, url);
 	if (args.length > 3) {
@@ -155,6 +155,7 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
 		const resultOptions = Object.assign({}, defaultOptions, options);
 		resultOptions.music.forEach(info => {
 			info.url = preProcessUrl(this._id, info.url);
+			info.pic = info.pic ? preProcessUrl(this._id, info.pic) : '';
 		});
 		const raw = `
 			<div id="${id}" class="aplayer" style="margin-bottom: 20px;"></div>
