@@ -84,6 +84,18 @@ Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 	{% endaplayerlist %}
 
 
+### PJAX compatible
+
+```js
+$(document).on('pjax:start', function () {
+    if (window.aplayers) {
+        for (let i = 0; i < window.aplayers.length; i++) {
+            window.aplayers[i].destroy();
+        }
+        window.aplayers = [];
+    }
+});
+```
 
 ### Upstream Issue
 

@@ -88,7 +88,7 @@ hexo.extend.tag.register('aplayer', function(args) {
 	raw +=
 		`</div>
 		<script>
-			new APlayer({
+			var ap = new APlayer({
 				element: document.getElementById("${id}"),
 				narrow: ${narrow},
 				autoplay: ${autoplay},
@@ -100,6 +100,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 					pic: "${pic}",
 				}
 			});
+			window.aplayers || (window.aplayers = []);
+			window.aplayers.push(ap);
 		</script>`;
 	return raw;
 });
@@ -126,7 +128,7 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 				<pre class="aplayer-lrc-content">'${content}</pre>
 			</div>
 			<script>
-				new APlayer({
+				var ap = new APlayer({
 					element: document.getElementById("${id}"),
 					narrow: ${narrow},
 					autoplay: ${autoplay},
@@ -138,6 +140,8 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 						pic: "${pic}",
 					}
 				});
+				window.aplayers || (window.aplayers = []);
+				window.aplayers.push(ap);
 			</script>`;
 	return raw;
 }, {ends: true});
@@ -162,7 +166,9 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
 			<script>
 				var options = ${JSON.stringify(resultOptions)};
 				options.element = document.getElementById("${id}");
-				new APlayer(options);
+				var ap = new APlayer(options);
+				window.aplayers || (window.aplayers = []);
+				window.aplayers.push(ap);
 			</script>
 
 		`;
