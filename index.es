@@ -13,7 +13,6 @@ const fs = require('hexo-fs'),
 	util = require('hexo-util'),
 	path = require('path'),
 	urllib = require('url'),
-	request = require('sync-request'),
 	srcDir = path.dirname(require.resolve('aplayer')),
 	scriptDir = path.join('assets', 'js/'),
 	aplayerScript = 'APlayer.min.js',
@@ -43,11 +42,19 @@ registers.forEach((register) => {
 	});
 });
 
+const generateAPlayerUrl = () => {
+	const aplayerConfig = hexo.config.aplayer || {};
+	if (aplayerConfig.externalLink) {
+		return aplayerConfig.externalLink;
+	} else {
+		const root = hexo.config.root ? hexo.config.root : '/';
+		return path.join(root, '/', scriptDir, aplayerScript);
+	}
+};
 
 hexo.extend.filter.register('after_post_render', (data) => {
-    const root = hexo.config.root ? hexo.config.root : '/';
 	data.content =
-		util.htmlTag('script', {src: path.join(root, '/', scriptDir, aplayerScript)}, ' ') +
+		util.htmlTag('script', {src: generateAPlayerUrl()}, ' ') +
 		data.content;
 	return data;
 });
@@ -76,14 +83,12 @@ hexo.extend.tag.register('aplayer', function(args) {
 	raw = `<div id="${id}" class="aplayer" style="margin-bottom: 20px;${width}">`;
 	if (lrcOpt) {
 		// Generate lyric texts
-		if (lrcPath.indexOf('http:') ==0 || lrcPath.indexOf('https:') ==0) {
-			content = request('GET', lrcPath).getBody();
-		} else {
+		if (lrcPath.indexOf('http:') <0 && lrcPath.indexOf('https:') <0) {
 			const PostAsset = hexo.database._models.PostAsset;
 			const _path = path.join(hexo.base_dir, PostAsset.findOne({post: this._id, slug: lrcPath})._id);
 			content = fs.readFileSync(_path);
+			raw += `<pre class="aplayer-lrc-content">${content}</pre>`;
 		}
-		raw += `<pre class="aplayer-lrc-content">${content}</pre>`;
 	}
 	raw +=
 		`</div>
@@ -92,12 +97,13 @@ hexo.extend.tag.register('aplayer', function(args) {
 				element: document.getElementById("${id}"),
 				narrow: ${narrow},
 				autoplay: ${autoplay},
-				showlrc: ${lrcOpt ? '2' : '0'},
+				showlrc: ${lrcOpt ? (content == '' ? '3' : '2') : '0'},
 				music: {
 					title: "${title}",
 					author: "${author}",
 					url: "${url}",
 					pic: "${pic}",
+					lrc: "${lrcOpt && content == '' ? lrcPath : ''}",
 				}
 			});
 			window.aplayers || (window.aplayers = []);
@@ -110,8 +116,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 hexo.extend.tag.register('aplayerlrc', function(args, content) {
 	let [title, author, url] = args,
 		narrow = false, autoplay = false,
-        pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
-            && !args[3].includes('lrc:') && !args[3].includes('width:') ? preProcessUrl(this._id, args[3]) : '',
+		pic = args[3] && args[3] !== 'narrow' && args[3] !== 'autoplay'
+			&& !args[3].includes('lrc:') && !args[3].includes('width:') ? preProcessUrl(this._id, args[3]) : '',
 		id = 'aplayer' + (counter++), raw = '', width = '';
 	url = preProcessUrl(this._id, url);
 	if (args.length > 3) {
