@@ -27,8 +27,7 @@
     "aplayer": "^1.5.8",
     "babel-polyfill": "^6.16.0",
     "hexo-fs": "^0.2.0",
-    "hexo-util": "^0.1.7",
-    "sync-request": "^3.0.1"
+    "hexo-util": "^0.1.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

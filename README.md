@@ -107,8 +107,14 @@ If you encounter this problem, **install the latest (beta) version, and wrap the
 
 ## Customization
 
-You can modify variables `scriptDir`(default: "/assets/js/" ) in `index.js` according to your blog's directory structure.
+1. Make `APlayer.js` external.
 
+Just add setting shown below in your site `_config.yml` file.
+
+```yaml
+aplayer:
+  externalLink: <the link to APlayer.js>
+```
 
 ## LICENSE
 
