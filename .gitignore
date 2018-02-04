@@ -1,4 +1,6 @@
 node_modules
 npm-debug.log
-index.js
+*.js
+!gulpfile.babel.js
 package-lock.json
+.idea
