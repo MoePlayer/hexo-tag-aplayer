@@ -73,7 +73,7 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 hexo.extend.tag.register('aplayerlist', function(args, content) {
   tagCounter += 1
   try {
-    const tag = new APlayerLyricTag(hexo, content, `aplayer-${tagCounter}`, this._id)
+    const tag = new APlayerListTag(hexo, content, `aplayer-${tagCounter}`, this._id)
     const output =  tag.generate()
     return output
   } catch (e) {
