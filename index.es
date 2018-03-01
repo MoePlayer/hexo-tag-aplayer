@@ -65,7 +65,7 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
     return  `
 			<script>
 				console.error("${e}");
-			</script>`;
+			</script>`
   }
 }, {ends: true})
 
@@ -77,11 +77,11 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
     const output =  tag.generate()
     return output
   } catch (e) {
-    console.error(e);
+    console.error(e)
     return  `
 			<script>
 				console.error("${e}");
-			</script>`;
+			</script>`
   }
 }, {ends: true})
 

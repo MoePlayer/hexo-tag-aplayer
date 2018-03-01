@@ -14,7 +14,7 @@ const resetExt = (path) => {
 gulp.task('default', ['build']);
 
 gulp.task('build', () => {
-    return gulp.src(sources)
+    return gulp.src(sources, {base: '.'})
         .pipe(babel({
             'presets': ['es2015']
         })) 
