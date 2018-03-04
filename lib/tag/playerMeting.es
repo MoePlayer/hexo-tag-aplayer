@@ -1,5 +1,6 @@
-import {METING_TAG_OPTION, METING_TAG_MARKER} from '../../common/constant'
+import {METING_TAG_OPTION, METING_TAG_MARKER, APLAYER_TAG_MARKER} from '../../common/constant'
 import {throwError, extractOptionValue} from '../../common/util'
+import {BaseTag} from "./base"
 
 export default class MetingTag extends BaseTag {
   constructor(hexo, args, pid) {

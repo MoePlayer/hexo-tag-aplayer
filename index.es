@@ -25,7 +25,7 @@ const config = new Config(hexo)
 const APLAYER_SCRIPT_LITERAL = `<script src="${config.get('script')}" class="${APLAYER_SECONDARY_SCRIPT_MARKER}"></script>`
 const METING_SCRIPT_LITERAL = config.get('meting_api')
   ? `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script><script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
-  : `<script class="${METING_SECONDARY_SCRIPT_MARKER}"></script>`
+  : `<script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
 
 config.get('assets').forEach(asset => {
   const [external, name, dstPath, srcPath] = asset
@@ -53,7 +53,7 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
       view.injectAsset(util.htmlTag('script', {src: config.get('script'), class: APLAYER_SCRIPT_MARKER}, ''))
     }
     // Inject Meting script
-    if (view.hasTagMarker(METING_TAG_MARKER) && !view.assetAlreadyInjected(METING_SCRIPT_MARKER)) {
+    if (config.get('meting') && view.hasTagMarker(METING_TAG_MARKER) && !view.assetAlreadyInjected(METING_SCRIPT_MARKER)) {
       if (config.get('meting_api')) {
         view.injectAsset( `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script>`)
       }
@@ -68,7 +68,10 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
 
 hexo.extend.filter.register('after_post_render', (data) => {
   // Polyfill: filter 'after_render:html' may not be fired in some cases, see https://github.com/hexojs/hexo-inject/issues/1
-  data.content = APLAYER_SCRIPT_LITERAL  + METING_SCRIPT_LITERAL + data.content
+  if (config.get('meting')) {
+    data.content = METING_SCRIPT_LITERAL + data.content
+  }
+  data.content = APLAYER_SCRIPT_LITERAL + data.content
   return data
 })
 
@@ -118,6 +121,9 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
 
 hexo.extend.tag.register('meting', function(args) {
   try {
+    if (!config.get('meting')) {
+      throwError('Meting support is disabled, may cannot resolve the meting tags properly.')
+    }
     const tag = new MetingTag(hexo, args, this._id)
     const output = tag.generate()
     return output

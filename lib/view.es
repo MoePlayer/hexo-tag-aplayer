@@ -1,5 +1,4 @@
 import {APLAYER_TAG_MARKER} from '../common/constant'
-import util from "hexo-util"
 
 export default class PartialView {
 
@@ -10,10 +9,6 @@ export default class PartialView {
 
   isFullPage() {
     return this.content.includes('</html>')
-  }
-
-  hasAPlayerTag() {
-    return this.content.includes(APLAYER_TAG_MARKER)
   }
 
   hasTagMarker(marker) {

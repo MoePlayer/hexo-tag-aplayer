@@ -7,72 +7,74 @@ const METING_FILENAME = `Meting.min.js`
 const DEFAULT_SCRIPT_DIR = path.join('assets', 'js/')
 const ASSETS = [
   // 四元组：引用非本地文件标识符，文件名, 文件的目标部署路径, 资源文件源路径
-  [false, path.join(DEFAULT_SCRIPT_DIR, APLAYER_FILENAME), path.join(APLAYER_DIR, APLAYER_FILENAME)],
+  [false, APLAYER_FILENAME, path.join(DEFAULT_SCRIPT_DIR, APLAYER_FILENAME), path.join(APLAYER_DIR, APLAYER_FILENAME)],
   [false, METING_FILENAME, path.join(DEFAULT_SCRIPT_DIR, METING_FILENAME), path.join(METING_DIR, METING_FILENAME)]
 ]
 
 /*
-* Aplayer Configuration Example in _config.yml:
+* Aplayer configuration example in _config.yml:
 *
 * aplayer:
-*   script_dir: some/place                        # Optional, default: assets/js
-*   meting_api: http://xxx/api.php                # Required if you use meting tag
-*   meting_cdn: http://xxx/Meing.min.js           # Optional default: null
-*   aplayer_cdn: http://xxx/aplayer.min.js        # default: null
-*   externalLink: http://xxx/aplayer.min.js       # Deprecated, please use 'aplayer_cdn'
+*   script_dir: some/place                        # Script asset path in public directory
+*   cdn: http://xxx/aplayer.min.js                # Optional, External APlayer.js resource url
+*   meting: true                                  # Enable meting support, default: false
+*   meting_api: http://xxx/api.php                # Optional, Meting api url
+*   meting_cdn: http://xxx/Meing.min.js           # Optional, External MetingJS resource url
+*   externalLink: http://xxx/aplayer.min.js       # Deprecated, please use 'cdn'
 * */
 export default class Config {
   constructor(hexo) {
-    this.source = hexo.config.aplayer
-    const root = hexo.config.root ? hexo.config.root : '/'
-
+    this.root = hexo.config.root ? hexo.config.root : '/'
     this.config = {
-      ASSETS,
+      assets: ASSETS,
       script_dir: DEFAULT_SCRIPT_DIR,
-      script: path.join(root, '/', DEFAULT_SCRIPT_DIR, APLAYER_FILENAME),
-      meting_script: null, meting_api: null
+      script: path.join(this.root, '/', DEFAULT_SCRIPT_DIR, APLAYER_FILENAME),
+      meting: false, meting_api: null,
+      meting_script: path.join(this.root, '/', DEFAULT_SCRIPT_DIR, METING_FILENAME),
     }
-    this._parse(hexo.config.aplayer)
+    if (hexo.config.aplayer) {
+      this._parse(clone(hexo.config.aplayer))
+    }
   }
 
   _parse(source) {
     let isExternal = {aplayer: false, meting: false}
-    if (!source) {
-      return
-    }
-    source = clone(source)
     // Parse script_dir
     if (source.script_dir) {
       this.set('script_dir', source.script_dir)
     }
     // Deprecated: externalLink option
     if (source.externalLink) {
-      source.aplayer_cdn = source.externalLink
+      source.cdn = source.externalLink
     }
     // Parse aplayer external resource
-    if (source.aplayer_cdn) {
-      this.set('script', source.aplayer_cdn)
+    if (source.cdn) {
+      this.set('script', source.cdn)
       isExternal.aplayer = true
     } else {
-      this.set('script', path.join(root, '/', this.get('script_dir'), APLAYER_FILENAME))
+      this.set('script', path.join(this.root, '/', this.get('script_dir'), APLAYER_FILENAME))
     }
+    let assets = [
+      [isExternal['aplayer'], APLAYER_FILENAME, path.join(this.get('script_dir'), APLAYER_FILENAME),
+        path.join(APLAYER_DIR, APLAYER_FILENAME)]
+    ]
     // Meting Config
-    if (source.meting_cdn) {
-      this.set(`meting_script`, source.meting_cdn)
-      isExternal.meting = true
-    } else {
-      this.set(`meting_script`, path.join(root, '/', this.get('script_dir'), METING_FILENAME))
-    }
-    if (source.meting_api) {
-      this.set('meting_api', source.meting_api)
+    if (source.meting !== false) {
+      this.set('meting', source.meting)
+      if (source.meting_cdn) {
+        this.set('meting_script', source.meting_cdn)
+        isExternal.meting = true
+      } else {
+        this.set('meting_script', path.join(this.root, '/', this.get('script_dir'), METING_FILENAME))
+      }
+      if (source.meting_api) {
+        this.set('meting_api', source.meting_api)
+      }
+      assets.push([isExternal['meting'], METING_FILENAME, path.join(this.get('script_dir'), METING_FILENAME),
+        path.join(METING_DIR, METING_FILENAME)])
     }
     // Reset assets config
-    this.set('assets', [
-      [isExternal['aplayer'], APLAYER_FILENAME, path.join(this.get('script_dir'), APLAYER_FILENAME),
-        path.join(APLAYER_DIR, APLAYER_FILENAME)],
-      [isExternal['meting'], METING_FILENAME, path.join(this.get('script_dir'), METING_FILENAME),
-        path.join(METING_DIR, METING_FILENAME)]
-    ])
+    this.set('assets', assets)
   }
 
   get(name) {

@@ -11,7 +11,6 @@ export const clone = (object) => {
   return JSON.parse(JSON.stringify(object))
 }
 
-
 export const extractOptionValue = (pair) => {
   return pair.slice(pair.indexOf(':') + 1)
 }
