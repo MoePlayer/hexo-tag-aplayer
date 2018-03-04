@@ -27,7 +27,9 @@
     "aplayer": "^1.5.8",
     "babel-polyfill": "^6.16.0",
     "hexo-fs": "^0.2.0",
-    "hexo-util": "^0.1.7"
+    "hexo-log": "^0.2.0",
+    "hexo-util": "^0.1.7",
+    "meting": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -35,6 +37,8 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-clean": "^0.4.0",
-    "gulp-rename": "^1.2.2"
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-watch": "^5.0.0"
   }
 }

@@ -35,7 +35,7 @@ registers.forEach((register) => {
 	hexo.extend.generator.register(regName, () => {
 		return {
 			path,
-			data() {
+			config() {
 				return fs.createReadStream(srcPath);
 			}
 		};

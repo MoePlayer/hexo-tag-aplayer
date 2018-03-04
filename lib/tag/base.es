@@ -1,5 +1,5 @@
 import urllib from 'url'
-import {throwError} from '../common/util'
+import {throwError, generateRandomString} from '../../common/util'
 
 export class BaseTag {
   /*
@@ -7,10 +7,10 @@ export class BaseTag {
     id: Instance ID 
     pid: Post ID
   */
-  constructor(hexo, args, id, pid) {
+  constructor(hexo, args, pid) {
     this.config = hexo.config.aplayer || {}
     this.pid = pid
-    this.id = id
+    this.id = `aplayer-${generateRandomString(8)}`
     this.hexo = hexo
   }
 

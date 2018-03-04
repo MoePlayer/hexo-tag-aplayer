@@ -1,12 +1,12 @@
 import fs from 'hexo-fs'
 import path from 'path'
 import {BaseTag} from "./base"
-import {PLAYER_TAG_OPTION} from "../common/constant"
-import {throwError} from "../common/util"
+import {PLAYER_TAG_OPTION, APLAYER_TAG_MARKER} from "../../common/constant"
+import {throwError, extractOptionValue} from "../../common/util"
 
 export default class APlayerTag extends BaseTag {
-    constructor(hexo, args, id, pid) {
-      super(hexo, args, id, pid)
+    constructor(hexo, args, pid) {
+      super(hexo, args, pid)
       this.settings = this.parse(args)
     }
 
@@ -24,7 +24,7 @@ export default class APlayerTag extends BaseTag {
                     break
                 case /^lrc:/.test(value):
                     settings.lrcOption = true
-                    settings.lrcPath = value.slice(value.indexOf(':') + 1)
+                    settings.lrcPath = extractOptionValue(value)
                     break
                 case /^width:/.test(value):
                     settings.width = value + ';'
@@ -55,7 +55,7 @@ export default class APlayerTag extends BaseTag {
             lrcPath = ''
         }
         return `
-        <div id="${this.id}" class="aplayer" style="margin-bottom: 20px;${width}">
+        <div id="${this.id}" class="aplayer ${APLAYER_TAG_MARKER}" style="margin-bottom: 20px;${width}">
             <pre class="aplayer-lrc-content">${content}</pre>
         </div>
         <script>

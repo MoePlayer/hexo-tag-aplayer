@@ -11,37 +11,70 @@ require('babel-polyfill')
 
 import fs from 'hexo-fs'
 import util from 'hexo-util'
-import {APLAYER_ASSETS} from './common/constant'
-import {generateAPlayerUrl} from './common/util'
-import APlayerTag from './lib/player'
-import APlayerLyricTag from './lib/playerLyric'
-import APlayerListTag from './lib/playerList'
+import {APLAYER_SCRIPT_MARKER, APLAYER_TAG_MARKER, APLAYER_SECONDARY_SCRIPT_MARKER,
+  METING_TAG_MARKER, METING_SCRIPT_MARKER, METING_SECONDARY_SCRIPT_MARKER} from './common/constant'
+import MetingTag from "./lib/tag/playerMeting"
+import APlayerTag from './lib/tag/player'
+import APlayerLyricTag from './lib/tag/playerLyric'
+import APlayerListTag from './lib/tag/playerList'
+import PartialView from './lib/view'
+import Config from './lib/config'
 
-let tagCounter = 0
+const log = require('hexo-log')({name: 'hexo-tag-aplayer', debug: false})
+const config = new Config(hexo)
+const APLAYER_SCRIPT_LITERAL = `<script src="${config.get('script')}" class="${APLAYER_SECONDARY_SCRIPT_MARKER}"></script>`
+const METING_SCRIPT_LITERAL = config.get('meting_api')
+  ? `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script><script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
+  : `<script class="${METING_SECONDARY_SCRIPT_MARKER}"></script>`
 
-APLAYER_ASSETS.forEach(asset => {
-  const [name, dstPath, srcPath] = asset
-  hexo.extend.generator.register(name, () => {
-    return {
-      path: dstPath,
-      data() {
-        return fs.createReadStream(srcPath)
+config.get('assets').forEach(asset => {
+  const [external, name, dstPath, srcPath] = asset
+  if (!external) {
+    hexo.extend.generator.register(name, () => {
+      return {
+        path: dstPath,
+        data() {
+          return fs.createReadStream(srcPath)
+        }
       }
-    }
-  })
+    })
+  }
 })
 
-hexo.extend.filter.register('after_post_render', function (data) {
-  data.content =
-    util.htmlTag('script', {src: generateAPlayerUrl(hexo)}, ' ') +
-    data.content
+hexo.extend.filter.register('after_render:html', function(raw, info) {
+  const view = new PartialView(raw, info)
+  if (view.isFullPage()) {
+    if (!view.hasHeadTag()) {
+      log.warn(`[hexo-tag-aplayer]: <head> not found in ${view.path}, unable to inject script (like 'Aplayer.js') in this page.`)
+      return
+    }
+    // Inject APlayer script
+    if (view.hasTagMarker(APLAYER_TAG_MARKER) && !view.assetAlreadyInjected(APLAYER_SCRIPT_MARKER)) {
+      view.injectAsset(util.htmlTag('script', {src: config.get('script'), class: APLAYER_SCRIPT_MARKER}, ''))
+    }
+    // Inject Meting script
+    if (view.hasTagMarker(METING_TAG_MARKER) && !view.assetAlreadyInjected(METING_SCRIPT_MARKER)) {
+      if (config.get('meting_api')) {
+        view.injectAsset( `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script>`)
+      }
+      view.injectAsset(util.htmlTag('script', {src: config.get('meting_script'), class: METING_SCRIPT_MARKER}, ''))
+    }
+    // Remove duplicate scripts
+    view.removeLiteral(APLAYER_SCRIPT_LITERAL)
+    view.removeLiteral(METING_SCRIPT_LITERAL)
+  }
+  return view.content
+})
+
+hexo.extend.filter.register('after_post_render', (data) => {
+  // Polyfill: filter 'after_render:html' may not be fired in some cases, see https://github.com/hexojs/hexo-inject/issues/1
+  data.content = APLAYER_SCRIPT_LITERAL  + METING_SCRIPT_LITERAL + data.content
   return data
 })
 
 hexo.extend.tag.register('aplayer', function(args) {
-  tagCounter += 1
   try {
-    const tag = new APlayerTag(hexo, args, `aplayer-${tagCounter}`, this._id)
+    const tag = new APlayerTag(hexo, args, this._id)
     const output =  tag.generate()
     return output
   } catch (e) {
@@ -54,10 +87,8 @@ hexo.extend.tag.register('aplayer', function(args) {
 })
 
 hexo.extend.tag.register('aplayerlrc', function(args, content) {
-  tagCounter += 1
   try {
-    const tag = new APlayerLyricTag(hexo, args, `aplayer-${tagCounter}`,
-      this._id, content)
+    const tag = new APlayerLyricTag(hexo, args, this._id, content)
     const output =  tag.generate()
     return output
   } catch (e) {
@@ -71,9 +102,8 @@ hexo.extend.tag.register('aplayerlrc', function(args, content) {
 
 
 hexo.extend.tag.register('aplayerlist', function(args, content) {
-  tagCounter += 1
   try {
-    const tag = new APlayerListTag(hexo, content, `aplayer-${tagCounter}`, this._id)
+    const tag = new APlayerListTag(hexo, content, this._id)
     const output =  tag.generate()
     return output
   } catch (e) {
@@ -85,3 +115,17 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
   }
 }, {ends: true})
 
+
+hexo.extend.tag.register('meting', function(args) {
+  try {
+    const tag = new MetingTag(hexo, args, this._id)
+    const output = tag.generate()
+    return output
+  } catch (e) {
+    console.error(e)
+    return `
+			<script>
+				console.error("${e}");
+			</script>`
+  }
+})

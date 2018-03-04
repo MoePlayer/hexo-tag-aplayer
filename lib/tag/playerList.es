@@ -1,9 +1,10 @@
 import {BaseTag} from "./base"
+import {APLAYER_TAG_MARKER} from "../../common/constant"
 
 
 export default class APlayerListTag extends BaseTag {
-  constructor(hexo, args,id, pid) {
-    super(hexo, args, id, pid)
+  constructor(hexo, args,pid) {
+    super(hexo, args, pid)
     this.settings = this.parse(args)
   }
 
@@ -22,9 +23,8 @@ export default class APlayerListTag extends BaseTag {
 
   generate() {
     const settings = JSON.stringify(this.settings)
-    try {
-      return `
-        <div id="${this.id}" class="aplayer" style="margin-bottom: 20px;"></div>
+    return `
+        <div id="${this.id}" class="aplayer ${APLAYER_TAG_MARKER}" style="margin-bottom: 20px;"></div>
 			  <script>
 				  var options = ${settings};
 				  options.element = document.getElementById("${this.id}");
@@ -32,12 +32,5 @@ export default class APlayerListTag extends BaseTag {
 			    window.aplayers || (window.aplayers = []);
 				  window.aplayers.push(ap);
 			  </script>`
-    } catch (e) {
-      console.error(e);
-      return  `
-			<script>
-				console.error("${e}");
-			</script>`;
-    }
   }
 }
