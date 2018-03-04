@@ -26,6 +26,8 @@ const APLAYER_SCRIPT_LITERAL = `<script src="${config.get('script')}" class="${A
 const METING_SCRIPT_LITERAL = config.get('meting_api')
   ? `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script><script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
   : `<script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
+let emittedFilters = {after_render: false, after_post_render: false}
+
 
 config.get('assets').forEach(asset => {
   const [external, name, dstPath, srcPath] = asset
@@ -42,6 +44,7 @@ config.get('assets').forEach(asset => {
 })
 
 hexo.extend.filter.register('after_render:html', function(raw, info) {
+  emittedFilters.after_render = true
   const view = new PartialView(raw, info)
   if (view.isFullPage()) {
     if (!view.hasHeadTag()) {
@@ -67,6 +70,7 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
 })
 
 hexo.extend.filter.register('after_post_render', (data) => {
+  emittedFilters.after_post_render = true
   // Polyfill: filter 'after_render:html' may not be fired in some cases, see https://github.com/hexojs/hexo-inject/issues/1
   if (config.get('meting')) {
     data.content = METING_SCRIPT_LITERAL + data.content
@@ -122,7 +126,7 @@ hexo.extend.tag.register('aplayerlist', function(args, content) {
 hexo.extend.tag.register('meting', function(args) {
   try {
     if (!config.get('meting')) {
-      throwError('Meting support is disabled, may cannot resolve the meting tags properly.')
+      throwError('Meting support is disabled, cannot resolve the meting tags properly.')
     }
     const tag = new MetingTag(hexo, args, this._id)
     const output = tag.generate()
@@ -133,5 +137,11 @@ hexo.extend.tag.register('meting', function(args) {
 			<script>
 				console.error("${e}");
 			</script>`
+  }
+})
+
+hexo.extend.tag.register('before_exit', function() {
+  if (!emittedFilters.after_render && emittedFilters.after_post_render) {
+    log.warn('Filter "after_render:html" not emitted during this generation, duplicate scripts would not be removed.')
   }
 })
