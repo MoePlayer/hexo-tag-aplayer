@@ -30,7 +30,7 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 
 	{% aplayer title author url [picture_url, narrow, autoplay, width:xxx, lrc:xxx] %}
 
-### Arguments
+### Option
 
 + `title` : music title
 + `author`: music author
@@ -53,18 +53,18 @@ Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 	[00:00.00]lrc here
 	{% endaplayerlrc %}
 
-### With playlist (new in 2.0)
+### With playlist
 
 	{% aplayerlist %}
 	{
-		"narrow": false,						// Optional, narrow style
-	    "autoplay": true,						// Optional, autoplay song(s), not supported by mobile browsers
-	    "mode": "random",						// Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
-	    "showlrc": 3,							// Optional, show lrc, can be 1, 2, 3
-	    "mutex": true,							// Optional, pause other players when this player playing
-	    "theme": "#e6d0b2",						// Optional, theme color, default: #b7daff
-		"preload": "metadata",					// Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
-		"listmaxheight": "513px",				// Optional, max height of play list
+	    "narrow": false,                          // Optional, narrow style
+	    "autoplay": true,                         // Optional, autoplay song(s), not supported by mobile browsers
+	    "mode": "random",                         // Optional, play mode, can be `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+	    "showlrc": 3,                             // Optional, show lrc, can be 1, 2, 3
+	    "mutex": true,                            // Optional, pause other players when this player playing
+	    "theme": "#e6d0b2",	                      // Optional, theme color, default: #b7daff
+		"preload": "metadata",                    // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+		"listmaxheight": "513px",                 // Optional, max height of play list
 	    "music": [
 	        {
 	            "title": "CoCo",
@@ -83,8 +83,48 @@ Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 	}
 	{% endaplayerlist %}
 
+### MeingJS support (new in 3.0)
+
+When you use MetingJS, your blog can play musics from Tencent, Netease, Xiami, Kugou, Baidu and more.
+
+See [metowolf/MetingJS](https://github.com/metowolf/MetingJS) and [metowolf/Meting](https://github.com/metowolf/Meting) in detail.
+
+If you want to use MetingJS in `hexo-tag-aplayer`, you need enable it in `_config.yml`
+
+```yaml
+aplayer:
+  meting: true
+```
+
+Now you can use `{% meting ...%}` in your post:
+
+```
+<!-- Simple example (id, server, type)  -->
+{% meting "60198" "netease" "playlist" %}
+
+<!-- Advanced example -->
+{% meting "60198" "netease" "playlist" "autoplay" "mutex:false" "listmaxheight:340px" "preload:none" "theme:#ad7a86"%}
+```
+
+The  `{% meting %}`  options are shown below:
+
+| Option        | Default       | Description                              |
+| ------------- | ------------- | ---------------------------------------- |
+| id            | **required**  | song id / playlist id / album id / search keyword |
+| server        | **required**  | Music platform: `netease`, `tencent`, `kugou`, `xiami`, `baidu` |
+| type          | **required**  | `song`, `playlist`, `album`, `search`, `artist` |
+| mode          | `circulation` | Play mode, `circulation`, `random`, `single`, `order` |
+| autoplay      | `true`        | Autoplay song(s), not supported by mobile browsers |
+| mutex         | `true`        | Pause other players when this player playing |
+| listmaxheight | `340px`       | Max height of play list                  |
+| preload       | `auto`        | The way to load music, can be `none`, `metadata`, `auto` |
+| theme         | `#ad7a86`     | Theme color                              |
+
+Read section [customization](#Customization)  to learn how to configure self-host meting api server in `hexo-tag-aplayer` and other configuration.
 
 ### PJAX compatible
+
+You need destroy APlayer instances manually when you use PJAX.
 
 ```js
 $(document).on('pjax:start', function () {
@@ -97,23 +137,60 @@ $(document).on('pjax:start', function () {
 });
 ```
 
-### Upstream Issue
+## Customization (new in 3.0)
+
+You can configure `hexo-tag-aplayer` in `_config.yml`:
+
+```yaml
+aplayer:
+  script_dir: some/place                        # Script asset path in public directory, default: 'assets/js'
+  cdn: http://xxx/aplayer.min.js                # External APlayer.js url (CDN)
+  meting: true                                  # Meting support, default: false
+  meting_api: http://xxx/api.php                # Meting api url
+  meting_cdn: http://xxx/Meing.min.js           # External Meting.js url (CDN)
+  asset_inject: true                            # Auto asset injection, default: true
+  externalLink: http://xxx/aplayer.min.js       # Deprecated, use 'cdn' instead
+```
+
+## Troubleshoot
+
+### Space within arguments
 
 Hexo has an [issue](https://github.com/hexojs/hexo/issues/1455) that cannot use space within tag arguments.
 
 If you encounter this problem, **install the latest (beta) version, and wrap the arguments within a string literal, for example:**
 
-	{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" "width:70%" "lrc:caffeine.txt" %}
+```
+{% aplayer "Caffeine" "Jeff Williams" "caffeine.mp3" "autoplay" "width:70%" "lrc:caffeine.txt" %}
+```
 
-## Customization
+### Duplicate APlayer.JS loading 
 
-1. Make `APlayer.js` external.
+The plugin hooks filter `after_render:html` , and it would inject `APlayer.js` and `Meting.js` in `<head>`:
 
-Just add setting shown below in your site `_config.yml` file.
+```html
+<html>
+  <head>
+    ...
+    <script src="assets/js/aplayer.min.js"></script>
+    <script src="assets/js/meting.min.js"></script>
+  </head>
+  ...
+</html>
+```
+
+However, `after_render:html` is not fired in some cases :
+
++ [Does not work with hexo-renderer-jade](https://github.com/hexojs/hexo-inject/issues/1)
++ `after_render:html` seems not to get emitted in default settings of hexo server module (`hexo server`), it means you have to use static serving mode( `hexo server -s`) instead.
+
+In such cases, the plugin would hook`after_post_render` as a fallback, which has a possibility to cause duplicate asset loadings.
+
+If you want to solve this issue definitely, you can disable this auto-injection feature in `_config.yml` and insert the scripts by yourself:
 
 ```yaml
 aplayer:
-  externalLink: <the link to APlayer.js>
+  asset_inject: false
 ```
 
 ## LICENSE
