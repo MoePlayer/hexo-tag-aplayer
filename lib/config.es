@@ -15,18 +15,20 @@ const ASSETS = [
 * Aplayer configuration example in _config.yml:
 *
 * aplayer:
-*   script_dir: some/place                        # Script asset path in public directory
-*   cdn: http://xxx/aplayer.min.js                # Optional, External APlayer.js resource url
-*   meting: true                                  # Enable meting support, default: false
-*   meting_api: http://xxx/api.php                # Optional, Meting api url
-*   meting_cdn: http://xxx/Meing.min.js           # Optional, External MetingJS resource url
-*   externalLink: http://xxx/aplayer.min.js       # Deprecated, please use 'cdn'
+*   script_dir: some/place                        # Script asset path in public directory, default: 'assets/js'
+*   cdn: http://xxx/aplayer.min.js                # External APlayer.js url
+*   meting: true                                  # Meting support, default: false
+*   meting_api: http://xxx/api.php                # Meting api url
+*   meting_cdn: http://xxx/Meing.min.js           # External Meting.js url
+*   externalLink: http://xxx/aplayer.min.js       # Deprecated, use 'cdn' instead
+*   asset_inject: true                            # Auto asset injection, default: true
 * */
 export default class Config {
   constructor(hexo) {
     this.root = hexo.config.root ? hexo.config.root : '/'
     this.config = {
       assets: ASSETS,
+      asset_inejct: true,
       script_dir: DEFAULT_SCRIPT_DIR,
       script: path.join(this.root, '/', DEFAULT_SCRIPT_DIR, APLAYER_FILENAME),
       meting: false, meting_api: null,
@@ -42,6 +44,10 @@ export default class Config {
     // Parse script_dir
     if (source.script_dir) {
       this.set('script_dir', source.script_dir)
+    }
+    // Asset auto-injection
+    if (source.asset_inject) {
+      this.set('asset_inject', source.asset_inject)
     }
     // Deprecated: externalLink option
     if (source.externalLink) {

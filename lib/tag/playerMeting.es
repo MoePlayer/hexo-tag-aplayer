@@ -17,8 +17,8 @@ export default class MetingTag extends BaseTag {
         case option === 'autoplay':
           settings.autoplay = true
           break
-        case option === 'mutex':
-          settings.mutex = true
+        case option.startsWith('mutex:'):
+          settings.mutex = (extractOptionValue(option) === 'true')
           break
         case option.startsWith('mode:'):
           settings.mode = extractOptionValue(option)
