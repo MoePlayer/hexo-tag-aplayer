@@ -15,7 +15,7 @@
   - [播放列表](#%E6%92%AD%E6%94%BE%E5%88%97%E8%A1%A8)
   - [MeingJS 支持 (3.0 新功能)](#meingjs-%E6%94%AF%E6%8C%81-30-%E6%96%B0%E5%8A%9F%E8%83%BD)
   - [PJAX 兼容](#pjax-%E5%85%BC%E5%AE%B9)
-- [自定义配置（3.0 新功能）](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%EF%BC%8830-%E6%96%B0%E5%8A%9F%E8%83%BD%EF%BC%89)
+- [自定义配置（3.0 新功能）](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE30-%E6%96%B0%E5%8A%9F%E8%83%BD)
 - [故障排除](#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4)
   - [标签参数空格问题](#%E6%A0%87%E7%AD%BE%E5%8F%82%E6%95%B0%E7%A9%BA%E6%A0%BC%E9%97%AE%E9%A2%98)
   - [重复载入 Aplayer.js 资源脚本问题](#%E9%87%8D%E5%A4%8D%E8%BD%BD%E5%85%A5-aplayerjs-%E8%B5%84%E6%BA%90%E8%84%9A%E6%9C%AC%E9%97%AE%E9%A2%98)
@@ -133,7 +133,7 @@ aplayer:
 | preload       | `auto`        | 音乐文件预载入模式，可选项： `none`, `metadata`, `auto` |
 | theme         | `#ad7a86`     | 播放器风格色彩设置                                |
 
-关于如何设置自建的 Meting API 服务器地址，以及其他 MetingJS 配置，请参考章节[自定义配置](#自定义配置)
+关于如何设置自建的 Meting API 服务器地址，以及其他 MetingJS 配置，请参考章节[自定义配置](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE30-%E6%96%B0%E5%8A%9F%E8%83%BD)
 
 ### PJAX 兼容
 

@@ -4,6 +4,8 @@
 
 Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APlayer)) in Hexo posts/pages.
 
+[中文文档](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -126,7 +128,7 @@ The  `{% meting %}`  options are shown below:
 | preload       | `auto`        | The way to load music, can be `none`, `metadata`, `auto` |
 | theme         | `#ad7a86`     | Theme color                              |
 
-Read section [customization](#Customization)  to learn how to configure self-host meting api server in `hexo-tag-aplayer` and other configuration.
+Read section [customization](#customization-new-in-30)  to learn how to configure self-host meting api server in `hexo-tag-aplayer` and other configuration.
 
 ### PJAX compatible
 
