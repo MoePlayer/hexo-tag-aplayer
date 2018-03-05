@@ -69,8 +69,8 @@ Besides 'lrc' option, you can use `aplayerlrc` which has end tag to show lyrics.
 	    "showlrc": 3,                             // Optional, show lrc, can be 1, 2, 3
 	    "mutex": true,                            // Optional, pause other players when this player playing
 	    "theme": "#e6d0b2",	                      // Optional, theme color, default: #b7daff
-		"preload": "metadata",                    // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
-		"listmaxheight": "513px",                 // Optional, max height of play list
+	    "preload": "metadata",                    // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+	    "listmaxheight": "513px",                 // Optional, max height of play list
 	    "music": [
 	        {
 	            "title": "CoCo",
