@@ -1,4 +1,4 @@
-import {APLAYER_TAG_MARKER} from '../common/constant'
+import {removeAll} from "../common/util"
 
 export default class PartialView {
 
@@ -28,7 +28,7 @@ export default class PartialView {
   }
 
   removeLiteral(text) {
-    this.content = this.content.replace(text, '')
+    this.content = removeAll(this.content, text)
   }
 
 }
