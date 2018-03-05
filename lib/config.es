@@ -28,7 +28,7 @@ export default class Config {
     this.root = hexo.config.root ? hexo.config.root : '/'
     this.config = {
       assets: ASSETS,
-      asset_inejct: true,
+      asset_inject: true,
       script_dir: DEFAULT_SCRIPT_DIR,
       script: path.join(this.root, '/', DEFAULT_SCRIPT_DIR, APLAYER_FILENAME),
       meting: false, meting_api: null,
@@ -46,7 +46,7 @@ export default class Config {
       this.set('script_dir', source.script_dir)
     }
     // Asset auto-injection
-    if (source.asset_inject) {
+    if (source.asset_inject === false) {
       this.set('asset_inject', source.asset_inject)
     }
     // Deprecated: externalLink option

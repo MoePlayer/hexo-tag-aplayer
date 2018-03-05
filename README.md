@@ -6,17 +6,23 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Arguments](#arguments)
+  - [Option](#option)
   - [With lyrics](#with-lyrics)
-  - [Upstream Issue](#upstream-issue)
-- [Customization](#customization)
+  - [With playlist](#with-playlist)
+  - [MeingJS support (new in 3.0)](#meingjs-support-new-in-30)
+  - [PJAX compatible](#pjax-compatible)
+- [Customization (new in 3.0)](#customization-new-in-30)
+- [Troubleshoot](#troubleshoot)
+  - [Space within arguments](#space-within-arguments)
+  - [Duplicate APlayer.JS loading](#duplicate-aplayerjs-loading)
 - [LICENSE](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 
 
 ![plugin screenshot](http://7jpp1d.com1.z0.glb.clouddn.com/QQ20160202-5.png)
