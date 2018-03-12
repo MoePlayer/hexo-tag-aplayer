@@ -9,13 +9,14 @@
 
 
 - [安装](#%E5%AE%89%E8%A3%85)
+- [依赖](#%E4%BE%9D%E8%B5%96)
 - [使用](#%E4%BD%BF%E7%94%A8)
   - [标签参数](#%E6%A0%87%E7%AD%BE%E5%8F%82%E6%95%B0)
   - [歌词标签](#%E6%AD%8C%E8%AF%8D%E6%A0%87%E7%AD%BE)
   - [播放列表](#%E6%92%AD%E6%94%BE%E5%88%97%E8%A1%A8)
   - [MeingJS 支持 (3.0 新功能)](#meingjs-%E6%94%AF%E6%8C%81-30-%E6%96%B0%E5%8A%9F%E8%83%BD)
   - [PJAX 兼容](#pjax-%E5%85%BC%E5%AE%B9)
-- [自定义配置（3.0 新功能）](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE30-%E6%96%B0%E5%8A%9F%E8%83%BD)
+- [自定义配置（3.0 新功能）](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%EF%BC%8830-%E6%96%B0%E5%8A%9F%E8%83%BD%EF%BC%89)
 - [故障排除](#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4)
   - [标签参数空格问题](#%E6%A0%87%E7%AD%BE%E5%8F%82%E6%95%B0%E7%A9%BA%E6%A0%BC%E9%97%AE%E9%A2%98)
   - [重复载入 Aplayer.js 资源脚本问题](#%E9%87%8D%E5%A4%8D%E8%BD%BD%E5%85%A5-aplayerjs-%E8%B5%84%E6%BA%90%E8%84%9A%E6%9C%AC%E9%97%AE%E9%A2%98)
@@ -32,6 +33,11 @@
 ```
 npm install --save hexo-tag-aplayer
 ```
+
+## 依赖
+
++ APlayer.js > 1.8.0
++ Meting.js > 1.1.1
 
 ## 使用
 
@@ -157,7 +163,9 @@ $(document).on('pjax:start', function () {
 ```yaml
 aplayer:
   script_dir: some/place                        # Public 目录下脚本目录路径，默认: 'assets/js'
+  style_dir: some/place                         # Public 目录下样式目录路径，默认: 'assets/css'
   cdn: http://xxx/aplayer.min.js                # 引用 APlayer.js 外部 CDN 地址 (默认不开启)
+  style_cdn: http://xxx/aplayer.min.css         # 引用 APlayer.css 外部 CDN 地址 (默认不开启)
   meting: true                                  # MetingJS 支持
   meting_api: http://xxx/api.php                # 自定义 Meting API 地址
   meting_cdn: http://xxx/Meing.min.js           # 引用 Meting.js 外部 CDN 地址 (默认不开启)

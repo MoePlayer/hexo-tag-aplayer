@@ -1,6 +1,6 @@
 {
   "name": "hexo-tag-aplayer",
-  "version": "3.0.0-beta.5",
+  "version": "3.0.0",
   "description": "Embed aplayer in Hexo posts/pages",
   "main": "index.js",
   "scripts": {
@@ -24,12 +24,12 @@
   },
   "homepage": "https://github.com/grzhan/hexo-tag-aplayer#readme",
   "dependencies": {
-    "aplayer": "^1.5.8",
+    "aplayer": "^1.8.0",
     "babel-polyfill": "^6.16.0",
     "hexo-fs": "^0.2.0",
     "hexo-log": "^0.2.0",
     "hexo-util": "^0.1.7",
-    "meting": "^1.0.1"
+    "meting": "^1.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -9,7 +9,9 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation](#installation)
+- [Dependency](#dependency)
 - [Usage](#usage)
   - [Option](#option)
   - [With lyrics](#with-lyrics)
@@ -33,6 +35,10 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 ## Installation
 
 	npm install --save hexo-tag-aplayer
+## Dependency
+
++ APlayer.js  > 1.8.0
++ Meting.js > 1.1.1
 
 ## Usage
 
@@ -152,7 +158,9 @@ You can configure `hexo-tag-aplayer` in `_config.yml`:
 ```yaml
 aplayer:
   script_dir: some/place                        # Script asset path in public directory, default: 'assets/js'
+  style_dir: some/place                         # Style asset path in public directory, default: 'assets/css'
   cdn: http://xxx/aplayer.min.js                # External APlayer.js url (CDN)
+  style_cdn: http://xxx/aplayer.min.css         # External APlayer.css url (CDN)
   meting: true                                  # Meting support, default: false
   meting_api: http://xxx/api.php                # Meting api url
   meting_cdn: http://xxx/Meing.min.js           # External Meting.js url (CDN)

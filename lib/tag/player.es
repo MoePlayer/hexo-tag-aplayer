@@ -69,7 +69,7 @@ export default class APlayerTag extends BaseTag {
               author: "${author}",
               url: "${url}",
               pic: "${pic}",
-              lrc: "${lrcPath}",
+              lrc: "${lrcPath}"
             }
           });
           window.aplayers || (window.aplayers = []);

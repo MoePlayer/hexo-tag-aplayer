@@ -10,9 +10,13 @@
 require('babel-polyfill')
 
 import fs from 'hexo-fs'
+import {throwError} from "./common/util"
 import util from 'hexo-util'
-import {APLAYER_SCRIPT_MARKER, APLAYER_TAG_MARKER, APLAYER_SECONDARY_SCRIPT_MARKER,
-  METING_TAG_MARKER, METING_SCRIPT_MARKER, METING_SECONDARY_SCRIPT_MARKER} from './common/constant'
+import {
+  APLAYER_SCRIPT_MARKER, APLAYER_TAG_MARKER, APLAYER_SECONDARY_SCRIPT_MARKER,
+  METING_TAG_MARKER, METING_SCRIPT_MARKER, METING_SECONDARY_SCRIPT_MARKER, APLAYER_SECONDARY_STYLE_MARKER,
+  APLAYER_STYLE_MARKER
+} from './common/constant'
 import MetingTag from "./lib/tag/playerMeting"
 import APlayerTag from './lib/tag/player'
 import APlayerLyricTag from './lib/tag/playerLyric'
@@ -22,6 +26,7 @@ import Config from './lib/config'
 
 const log = require('hexo-log')({name: 'hexo-tag-aplayer', debug: false})
 const config = new Config(hexo)
+const APLAYER_STYLE_LITERAL = `<link rel="stylesheet" class="${APLAYER_SECONDARY_STYLE_MARKER}" href="${config.get('style')}">`
 const APLAYER_SCRIPT_LITERAL = `<script src="${config.get('script')}" class="${APLAYER_SECONDARY_SCRIPT_MARKER}"></script>`
 const METING_SCRIPT_LITERAL = config.get('meting_api')
   ? `<script>var meting_api='${config.get('meting_api')}?server=:server&type=:type&id=:id&r=:r'</script><script class="${METING_SECONDARY_SCRIPT_MARKER}" src="${config.get('meting_script')}"></script>`
@@ -31,7 +36,7 @@ let filterEmitted = {after_render: false, after_post_render: false}
 
 config.get('assets').forEach(asset => {
   const [external, name, dstPath, srcPath] = asset
-  if (!external && config.get('asset_inject')) {
+  if (!external && config.get('asset_inject') && fs.existsSync(srcPath)) {
     hexo.extend.generator.register(name, () => {
       return {
         path: dstPath,
@@ -51,12 +56,14 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
   const view = new PartialView(raw, info)
   if (view.isFullPage()) {
     if (!view.hasHeadTag()) {
-      log.warn(`[hexo-tag-aplayer]: <head> not found in ${view.path}, unable to inject script (like 'Aplayer.js') in this page.`)
+      log.warn(`[hexo-tag-aplayer]: <head> not found in ${view.path}, unable to inject script (like 'APlayer.js') in this page.`)
       return
     }
     // Inject APlayer script
     if (view.hasTagMarker(APLAYER_TAG_MARKER) && !view.assetAlreadyInjected(APLAYER_SCRIPT_MARKER)) {
+      view.injectAsset(`<link rel="stylesheet" href="${config.get('style')}" class="${APLAYER_STYLE_MARKER}">`)
       view.injectAsset(util.htmlTag('script', {src: config.get('script'), class: APLAYER_SCRIPT_MARKER}, ''))
+
     }
     // Inject Meting script
     if (config.get('meting') && view.hasTagMarker(METING_TAG_MARKER) && !view.assetAlreadyInjected(METING_SCRIPT_MARKER)) {
@@ -68,6 +75,7 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
     // Remove duplicate scripts
     view.removeLiteral(APLAYER_SCRIPT_LITERAL)
     view.removeLiteral(METING_SCRIPT_LITERAL)
+    view.removeLiteral(APLAYER_STYLE_LITERAL)
   }
   return view.content
 })
@@ -81,7 +89,7 @@ hexo.extend.filter.register('after_post_render', (data) => {
   if (config.get('meting')) {
     data.content = METING_SCRIPT_LITERAL + data.content
   }
-  data.content = APLAYER_SCRIPT_LITERAL + data.content
+  data.content = APLAYER_STYLE_LITERAL + APLAYER_SCRIPT_LITERAL + data.content
   return data
 })
 
