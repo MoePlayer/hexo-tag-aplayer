@@ -16,7 +16,7 @@ export default class APlayerListTag extends BaseTag {
     }, JSON.parse(options))
     settings.music.forEach(info => {
       info.url = this.processUrl(info.url)
-      info.pic = info.pic ? this.processUrl(this._id, info.pic) : ''
+      info.pic = info.pic ? this.processUrl(info.pic) : ''
     })
     return settings
   }
