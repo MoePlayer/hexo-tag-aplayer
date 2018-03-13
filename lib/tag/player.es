@@ -23,7 +23,7 @@ export default class APlayerTag extends BaseTag {
                     settings.autoplay = true
                     break
                 case /^lrc:/.test(value):
-                    settings.lrcOption = true
+                    settings.lrcOption = 1
                     settings.lrcPath = extractOptionValue(value)
                     break
                 case /^width:/.test(value):
@@ -45,14 +45,15 @@ export default class APlayerTag extends BaseTag {
         let content = ''
         let {title, author, url, narrow, pic,
             autoplay, lrcOption, lrcPath, width} = this.settings
-        if (lrcOption && !/^https?/.test(lrcPath)) {
-            const PostAsset = hexo.database._models.PostAsset;
-            const _path = path.join(hexo.base_dir, PostAsset.findOne({post: this.pid, slug: lrcPath})._id);
-            content = fs.readFileSync(_path);
-        }
-        if (content.length > 0) {
+        if (lrcOption) {
+          if (!/^https?/.test(lrcPath)) {
+            const PostAsset = hexo.database._models.PostAsset
+            const _path = path.join(hexo.base_dir, PostAsset.findOne({post: this.pid, slug: lrcPath})._id)
+            content = fs.readFileSync(_path)
             lrcOption = 2
-            lrcPath = ''
+          } else {
+            lrcOption = 3
+          }
         }
         return `
         <div id="${this.id}" class="aplayer ${APLAYER_TAG_MARKER}" style="margin-bottom: 20px;${width}">
