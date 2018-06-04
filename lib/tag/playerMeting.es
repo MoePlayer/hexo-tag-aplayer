@@ -17,6 +17,30 @@ export default class MetingTag extends BaseTag {
         case option === 'autoplay':
           settings.autoplay = true
           break
+        case option === 'fixed':
+          settings.fixed = true
+          break
+        case option === 'mini':
+          settings.mini = true
+          break;
+        case option.startsWith('loop:'):
+          settings.loop = extractOptionValue(option);
+          break;
+        case option.startsWith('order:'):
+          settings.order = extractOptionValue(option);
+          break;
+        case option.startsWith('volume:'):
+          settings.volume = extractOptionValue(option);
+          break;
+        case option.startsWith('lrctype:'):
+          settings.lrctype = extractOptionValue(option);
+          break;
+        case option === 'listfolded':
+          settings.listfolded = true;
+          break;
+        case option.startsWith('storagename:'):
+          settings.storagename = extractOptionValue(option);
+          break;
         case option.startsWith('mutex:'):
           settings.mutex = (extractOptionValue(option) === 'true')
           break

@@ -37,8 +37,8 @@ Embed APlayer([https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APla
 	npm install --save hexo-tag-aplayer
 ## Dependency
 
-+ APlayer.js  > 1.8.0
-+ Meting.js > 1.1.1
++ APlayer.js  >= 1.10.0
++ Meting.js >= 1.2.0
 
 ## Usage
 
@@ -122,17 +122,24 @@ Now you can use `{% meting ...%}` in your post:
 
 The  `{% meting %}`  options are shown below:
 
-| Option        | Default       | Description                              |
-| ------------- | ------------- | ---------------------------------------- |
-| id            | **required**  | song id / playlist id / album id / search keyword |
-| server        | **required**  | Music platform: `netease`, `tencent`, `kugou`, `xiami`, `baidu` |
-| type          | **required**  | `song`, `playlist`, `album`, `search`, `artist` |
-| mode          | `circulation` | Play mode, `circulation`, `random`, `single`, `order` |
-| autoplay      | `true`        | Autoplay song(s), not supported by mobile browsers |
-| mutex         | `true`        | Pause other players when this player playing |
-| listmaxheight | `340px`       | Max height of play list                  |
-| preload       | `auto`        | The way to load music, can be `none`, `metadata`, `auto` |
-| theme         | `#ad7a86`     | Theme color                              |
+| Option        | Default      | Description                                                  |
+| ------------- | ------------ | ------------------------------------------------------------ |
+| id            | **required** | song id / playlist id / album id / search keyword            |
+| server        | **required** | Music platform: `netease`, `tencent`, `kugou`, `xiami`, `baidu` |
+| type          | **required** | `song`, `playlist`, `album`, `search`, `artist`              |
+| fixed         | `false`      | Enable fixed mode                                            |
+| mini          | `false`      | Enable mini mode                                             |
+| loop          | `all`        | Player loop play, values: 'all', 'one', 'none'               |
+| order         | `list`       | Player play order, values: 'list', 'random'                  |
+| volume        | 0.7          | Default volume, notice that player will remember user setting, default volume will not work after user set volume themselves |
+| lrctype       | 0            | Lyric type                                                   |
+| listfolded    | `false`      | Indicate whether list should folded at first                 |
+| autoplay      | `false`      | Autoplay song(s), not supported by mobile browsers           |
+| mutex         | `true`       | Pause other players when this player playing                 |
+| listmaxheight | `340px`      | Max height of play list                                      |
+| preload       | `auto`       | The way to load music, can be `none`, `metadata`, `auto`     |
+| storagename   | `metingjs`   | LocalStorage key that store player setting                   |
+| theme         | `#ad7a86`    | Theme color                                                  |
 
 Read section [customization](#customization-new-in-30)  to learn how to configure self-host meting api server in `hexo-tag-aplayer` and other configuration.
 

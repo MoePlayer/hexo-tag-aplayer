@@ -127,17 +127,24 @@ aplayer:
 
 有关  `{% meting %}`  的选项列表如下:
 
-| 选项            | 默认值           | 描述                                       |
-| ------------- | ------------- | ---------------------------------------- |
-| id            | **必须值**       | 歌曲 id / 播放列表 id / 相册 id / 搜索关键字          |
-| server        | **必须值**       | 音乐平台: `netease`, `tencent`, `kugou`, `xiami`, `baidu` |
-| type          | **必须值**       | `song`, `playlist`, `album`, `search`, `artist` |
-| mode          | `circulation` | 列表播放模式, `circulation`, `random`, `single`, `order` |
-| autoplay      | `true`        | 自动播放，移动端浏览器暂时不支持此功能                      |
-| mutex         | `true`        | 该选项开启时，如果同页面有其他 aplayer 播放，该播放器会暂停       |
-| listmaxheight | `340px`       | 播放列表的最大长度                                |
-| preload       | `auto`        | 音乐文件预载入模式，可选项： `none`, `metadata`, `auto` |
-| theme         | `#ad7a86`     | 播放器风格色彩设置                                |
+| 选项          | 默认值     | 描述                                                        |
+| ------------- | ---------- | ----------------------------------------------------------- |
+| id            | **必须值** | 歌曲 id / 播放列表 id / 相册 id / 搜索关键字                |
+| server        | **必须值** | 音乐平台: `netease`, `tencent`, `kugou`, `xiami`, `baidu`   |
+| type          | **必须值** | `song`, `playlist`, `album`, `search`, `artist`             |
+| fixed         | `false`    | 开启固定模式                                                |
+| mini          | `false`    | 开启迷你模式                                                |
+| loop          | `all`      | 列表循环模式：`all`, `one`,`none`                           |
+| order         | `list`     | 列表播放模式： `list`, `random`                             |
+| volume        | 0.7        | 播放器音量                                                  |
+| lrctype       | 0          | 歌词格式类型                                                |
+| listfolded    | `false`    | 指定音乐播放列表是否折叠                                    |
+| storagename   | `metingjs` | LocalStorage 中存储播放器设定的键名                         |
+| autoplay      | `true`     | 自动播放，移动端浏览器暂时不支持此功能                      |
+| mutex         | `true`     | 该选项开启时，如果同页面有其他 aplayer 播放，该播放器会暂停 |
+| listmaxheight | `340px`    | 播放列表的最大长度                                          |
+| preload       | `auto`     | 音乐文件预载入模式，可选项： `none`, `metadata`, `auto`     |
+| theme         | `#ad7a86`  | 播放器风格色彩设置                                          |
 
 关于如何设置自建的 Meting API 服务器地址，以及其他 MetingJS 配置，请参考章节[自定义配置](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE30-%E6%96%B0%E5%8A%9F%E8%83%BD)
 

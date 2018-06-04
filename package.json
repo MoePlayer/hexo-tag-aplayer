@@ -24,12 +24,12 @@
   },
   "homepage": "https://github.com/grzhan/hexo-tag-aplayer#readme",
   "dependencies": {
-    "aplayer": "^1.8.0",
+    "aplayer": "^1.10.0",
     "babel-polyfill": "^6.16.0",
     "hexo-fs": "^0.2.0",
     "hexo-log": "^0.2.0",
     "hexo-util": "^0.1.7",
-    "meting": "^1.1.1"
+    "meting": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
