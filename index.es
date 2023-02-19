@@ -81,6 +81,11 @@ hexo.extend.filter.register('after_render:html', function(raw, info) {
 })
 
 hexo.extend.filter.register('after_post_render', (data) => {
+  // There is no need to inject scripts for some files like css or js which don't have layout.
+  if (data.layout === 'false') {
+    return;
+  }
+
   filterEmitted.after_post_render = true
   if (!config.get('asset_inject')) {
     return
